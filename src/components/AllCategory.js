@@ -1,0 +1,78 @@
+import { PRODUCTS_FROM_CATEGORY } from "../GraphQL/Queries";
+import { Query } from "@apollo/client/react/components";
+import { PureComponent } from "react";
+import {Link} from 'react-router-dom'
+import styled from "styled-components";
+class AllCategory extends PureComponent {
+  render() {
+    return (
+      <main>
+        <StyledHeading className="heading">{this.props.category}</StyledHeading>
+        <StyledProductsGrid>
+          <Query query={PRODUCTS_FROM_CATEGORY(this.props.category)}>
+            {({ loading, data }) => {
+              if (loading) return <div>Loading</div>;
+              const res = data.category.products;
+              console.log(res);
+
+              return res.map((product) => {
+                return (
+                <Link to={product.id}>
+                    <StyledProduct className={product.id}>
+                      <img
+                        className="product-cover__category"
+                        src={product.gallery[0]}
+                        alt={`${product.name}`}
+                      />
+                      <h1 className="product-name__category">
+                        {" "}
+                        {product.name}
+                      </h1>
+                      <h2 className="product-price__category">
+                        {" "}
+                        {product.prices[0].currency.symbol}
+                        {product.prices[0].amount}{" "}
+                      </h2>
+                    </StyledProduct>
+                  </Link>
+                );
+              });
+            }}
+          </Query>
+        </StyledProductsGrid>
+      </main>
+    );
+  }
+}
+
+export default AllCategory;
+
+const StyledHeading = styled.h1`
+  margin-top: 2em;
+`;
+
+const StyledProduct = styled.div`
+  padding: 1em;
+
+  .product-cover__category {
+    width: 100%;
+    height: 500px;
+    object-fit: contain;
+    object-position: center;
+    margin-bottom: 1.5em;
+  }
+`;
+
+const StyledProductsGrid = styled.div`
+  margin-top: 5em;
+  display: grid;
+  gap: 3.5em;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+
+  .ps-5 > img {
+    object-position: bottom;
+  }
+  .jacket-canada-goosee > img {
+    object-position: top;
+  }
+`;
