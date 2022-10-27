@@ -4,7 +4,9 @@ import { PRODUCT_BY_ID } from "../GraphQL/Queries";
 import { Query } from "@apollo/client/react/components";
 import styled from "styled-components";
 import parse from "html-react-parser";
+import { CurrencyContextConsumer } from "../context/CurrencyContext";
 class ProductDetail extends PureComponent {
+
   id = this.props.match.params.productId;
 
   state = {
@@ -19,6 +21,7 @@ class ProductDetail extends PureComponent {
     console.log(this.state);
   };
   render() {
+    console.log(this.context);
     return (
       <section>
         <Query query={PRODUCT_BY_ID(this.id)}>
@@ -99,10 +102,14 @@ class ProductDetail extends PureComponent {
                     })}
                     <StyledPriceContainer className="product-attribute-price-title__detail ">
                       Price:
-                      <span className="product-price__detail ">
-                        {res.prices[3].currency.symbol}
-                        {res.prices[3].amount}
-                      </span>
+                      <CurrencyContextConsumer>
+                      { ({currencyIndex}) => 
+                        (<span className="product-price__detail ">
+                        {res.prices[currencyIndex].currency.symbol}
+                        {res.prices[currencyIndex].amount}
+
+                      </span >)}
+                      </CurrencyContextConsumer>
                     </StyledPriceContainer>
                     <StyledButtonCTA>add to cart</StyledButtonCTA>
                     <StyledDescription className="product-description__detail">

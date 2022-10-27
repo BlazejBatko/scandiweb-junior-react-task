@@ -3,6 +3,7 @@ import { Query } from "@apollo/client/react/components";
 import { PureComponent } from "react";
 import {Link} from 'react-router-dom'
 import styled from "styled-components";
+import { CurrencyContextConsumer } from "../context/CurrencyContext";
 class AllCategory extends PureComponent {
   render() {
     return (
@@ -28,11 +29,14 @@ class AllCategory extends PureComponent {
                         {" "}
                         {product.name}
                       </h1>
-                      <h2 className="product-price__category">
-                        {" "}
-                        {product.prices[0].currency.symbol}
-                        {product.prices[0].amount}{" "}
-                      </h2>
+                      <CurrencyContextConsumer> 
+                       { ({currencyIndex}) => ( <h2 className="product-price__category">
+                          {" "}
+                          {product.prices[currencyIndex].currency.symbol}
+                          {product.prices[currencyIndex].amount}{" "}
+                        </h2>)
+                        }
+                      </CurrencyContextConsumer>
                     </StyledProduct>
                   </Link>
                 );

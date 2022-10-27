@@ -11,6 +11,7 @@ import GetCategories from "./components/Navbar";
 import { Switch, Route } from "react-router-dom";
 import AllCategory from "./components/AllCategory";
 import ProductDetail from "./components/ProductDetail";
+
 const errorLink = onError(({ graphqlErrors, networkErorr }) => {
   if (graphqlErrors) {
     graphqlErrors.map(({ message, location, path }) => {
@@ -36,6 +37,7 @@ class App extends PureComponent {
     return (
       <ApolloProvider client={client}>
         <GetCategories />
+        
         <Switch>
           <Route path="/tech">
             <AllCategory isOpen={false} category={"tech"} />
@@ -50,6 +52,7 @@ class App extends PureComponent {
             <ProductDetail/>
           </Route>
         </Switch>
+       
       </ApolloProvider>
     );
   }
