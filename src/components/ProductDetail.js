@@ -5,8 +5,8 @@ import { Query } from "@apollo/client/react/components";
 import styled from "styled-components";
 import parse from "html-react-parser";
 import { CurrencyContextConsumer } from "../context/CurrencyContext";
+import { CartContextConsumer } from "../context/CartContext";
 class ProductDetail extends PureComponent {
-
   id = this.props.match.params.productId;
 
   state = {
@@ -20,6 +20,12 @@ class ProductDetail extends PureComponent {
     this.setState({ [e.target.name]: e.target.value });
     console.log(this.state);
   };
+
+  handleFormSubmit = (e, fn) => {
+    e.preventDefault()
+    fn()
+  }
+
   render() {
     console.log(this.context);
     return (
@@ -52,66 +58,81 @@ class ProductDetail extends PureComponent {
                   <div className="details">
                     <h1 className="product-brand__detail"> {res.brand}</h1>
                     <h1 className="product-name__detail"> {res.name}</h1>
-                    {res.attributes.map((attribute) => {
-                      return (
-                        <StyledAttributesContainer>
-                          <h1 className="product-attribute-title__detail">
-                            {" "}
-                            {attribute.name}{" "}
-                          </h1>
-                          <div className="attributes">
-                            {attribute.items.map((item) => {
-                              return (
-                                <div>
-                                  {" "}
-                                  {attribute.type !== "swatch" ? (
-                                    <InputContainer isSwatch>
-                                      <RadioButton
-                                        onChange={this.handleFormChange}
-                                        type="radio"
-                                        isSwatch
-                                        value={item.displayValue}
-                                        name={attribute.name}
-                                      />
-                                      <RadioButtonLabel isSwatch>
-                                        {" "}
-                                        {item.value}{" "}
-                                      </RadioButtonLabel>
-                                    </InputContainer>
-                                  ) : (
-                                    <InputContainer>
-                                      <RadioButton
-                                        onChange={this.handleFormChange}
-                                        type="radio"
-                                        value={item.displayValue}
-                                        name={attribute.name}
-                                      />
-                                      <RadioButtonLabel
-                                        color={item.displayValue}
-                                      >
-                                        {" "}
-                                      </RadioButtonLabel>
-                                    </InputContainer>
-                                  )}{" "}
-                                </div>
-                              );
-                            })}
-                          </div>
-                        </StyledAttributesContainer>
-                      );
-                    })}
-                    <StyledPriceContainer className="product-attribute-price-title__detail ">
-                      Price:
-                      <CurrencyContextConsumer>
-                      { ({currencyIndex}) => 
-                        (<span className="product-price__detail ">
-                        {res.prices[currencyIndex].currency.symbol}
-                        {res.prices[currencyIndex].amount}
 
-                      </span >)}
-                      </CurrencyContextConsumer>
-                    </StyledPriceContainer>
-                    <StyledButtonCTA>add to cart</StyledButtonCTA>
+                    <CartContextConsumer>
+                      {(context) => (
+                        <form
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                            context.addToCart([data, this.state]);
+                          }}
+                        >
+                          {res.attributes.map((attribute) => {
+                            return (
+                              <StyledAttributesContainer>
+                                <h1 className="product-attribute-title__detail">
+                                  {" "}
+                                  {attribute.name}{" "}
+                                </h1>
+                                <div className="attributes">
+                                  {attribute.items.map((item) => {
+                                    return (
+                                      <div>
+                                        {" "}
+                                        {attribute.type !== "swatch" ? (
+                                          <InputContainer isSwatch>
+                                            <RadioButton
+                                              onChange={this.handleFormChange}
+                                              type="radio"
+                                              required
+                                              isSwatch
+                                              value={item.displayValue}
+                                              name={attribute.name}
+                                            />
+                                            <RadioButtonLabel isSwatch>
+                                              {" "}
+                                              {item.value}{" "}
+                                            </RadioButtonLabel>
+                                          </InputContainer>
+                                        ) : (
+                                          <InputContainer>
+                                            <RadioButton
+                                              required
+                                              onChange={this.handleFormChange}
+                                              type="radio"
+                                              value={item.displayValue}
+                                              name={attribute.name}
+                                            />
+                                            <RadioButtonLabel
+                                              color={item.displayValue}
+                                            >
+                                              {" "}
+                                            </RadioButtonLabel>
+                                          </InputContainer>
+                                        )}{" "}
+                                      </div>
+                                    );
+                                  })}
+                                </div>
+                              </StyledAttributesContainer>
+                            );
+                          })}
+                          <StyledPriceContainer className="product-attribute-price-title__detail ">
+                            Price:
+                            <CurrencyContextConsumer>
+                              {({ currencyIndex }) => (
+                                <span className="product-price__detail ">
+                                  {res.prices[currencyIndex].currency.symbol}
+                                  {res.prices[currencyIndex].amount}
+                                </span>
+                              )}
+                            </CurrencyContextConsumer>
+                          </StyledPriceContainer>
+
+                          <StyledButtonCTA>add to cart</StyledButtonCTA>
+                        </form>
+                      )}
+                    </CartContextConsumer>
                     <StyledDescription className="product-description__detail">
                       {parse(res.description)}
                     </StyledDescription>
@@ -250,7 +271,7 @@ const StyledProductDetails = styled.div`
   }
   display: flex;
   align-items: start;
- gap: 1em;
+  gap: 1em;
   .gallery {
     min-width: 100px;
     max-width: 150px;

@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { CurrencyContextConsumer } from "../context/CurrencyContext";
 class AllCategory extends PureComponent {
   render() {
+    console.log("rerendered")
     return (
       <main>
         <StyledHeading className="heading">{this.props.category}</StyledHeading>
@@ -57,7 +58,8 @@ const StyledHeading = styled.h1`
 
 const StyledProduct = styled.div`
   padding: 1em;
-
+ 
+  
   .product-cover__category {
     width: 100%;
     height: 500px;
@@ -65,10 +67,18 @@ const StyledProduct = styled.div`
     object-position: center;
     margin-bottom: 1.5em;
   }
+
+  &:hover {
+   box-shadow: 0px 4px 35px rgba(168, 172, 176, 0.19)
+  }
 `;
 
 const StyledProductsGrid = styled.div`
-  margin-top: 5em;
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+  margin: 5em 0;
   display: grid;
   gap: 3.5em;
   grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));

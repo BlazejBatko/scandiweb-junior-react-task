@@ -49,8 +49,9 @@ class DropDown extends PureComponent {
                       }}
                       className="dropdown-item"
                     >
-                      {currency.label}
-                      {currency.symbol}
+                      
+                      <p>{currency.symbol}</p>
+                      <p>{currency.label}</p>
                     </div>
                   );
                 })}
@@ -66,12 +67,14 @@ class DropDown extends PureComponent {
 export default DropDown;
 
 const StyledDropDownWrapper = styled.div`
+ width: 40px;
   .dropdown {
     width: 200px;
     position: relative;
   }
 
   .dropdown-btn {
+    
     font-weight: bold;
     color: #333;
     display: flex;
@@ -92,6 +95,9 @@ const StyledDropDownWrapper = styled.div`
   .dropdown-item {
     padding: 13px;
     cursor: pointer;
+    display: flex;
+    gap: 5px;
+  
   }
   .dropdown-item:hover {
     background: #f1f1f1;

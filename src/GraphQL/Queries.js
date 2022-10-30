@@ -24,6 +24,7 @@ query{
       name
       id
       gallery
+      inStock
       prices {
         currency {
           symbol
@@ -38,11 +39,13 @@ query{
 export const PRODUCT_BY_ID = (productId) => gql`
 query{
   product(id: "${productId}") {
+    id
     name
     brand
     description
     gallery
     description
+    inStock
     prices {
       amount
       currency {

@@ -15,7 +15,7 @@ import ProductDetail from "./components/ProductDetail";
 const errorLink = onError(({ graphqlErrors, networkErorr }) => {
   if (graphqlErrors) {
     graphqlErrors.map(({ message, location, path }) => {
-      alert("GraphQL error: " + message);
+     return alert("GraphQL error: " + message);
     });
   }
 });
@@ -37,10 +37,10 @@ class App extends PureComponent {
     return (
       <ApolloProvider client={client}>
         <GetCategories />
-        
+        <div id="app-wrapper">
         <Switch>
           <Route path="/tech">
-            <AllCategory isOpen={false} category={"tech"} />
+            <AllCategory category={"tech"} />
           </Route>
           <Route path="/clothes">
             <AllCategory category={"clothes"} />
@@ -49,10 +49,10 @@ class App extends PureComponent {
             <AllCategory category={"all"} />
           </Route>
           <Route path="/:productId">
-            <ProductDetail/>
+            <ProductDetail />
           </Route>
         </Switch>
-       
+        </div>
       </ApolloProvider>
     );
   }
