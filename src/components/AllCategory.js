@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { CurrencyContextConsumer } from "../context/CurrencyContext";
 class AllCategory extends PureComponent {
   render() {
-    console.log("rerendered")
+   
     return (
       <main>
         <StyledHeading className="heading">{this.props.category}</StyledHeading>
@@ -15,7 +15,7 @@ class AllCategory extends PureComponent {
             {({ loading, data }) => {
               if (loading) return <div>Loading</div>;
               const res = data.category.products;
-              console.log(res);
+           
 
               return res.map((product) => {
                 return (

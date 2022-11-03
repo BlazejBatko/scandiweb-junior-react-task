@@ -11,23 +11,25 @@ class ProductDetail extends PureComponent {
 
   state = {
     currentPhotoIndex: 0,
+    
   };
+
   handleClick = (index) => {
     this.setState({ currentPhotoIndex: index });
   };
 
   handleFormChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
-    console.log(this.state);
+    
   };
 
   handleFormSubmit = (e, fn) => {
-    e.preventDefault()
-    fn()
-  }
+    e.preventDefault();
+    fn();
+  };
 
   render() {
-    console.log(this.context);
+    
     return (
       <section>
         <Query query={PRODUCT_BY_ID(this.id)}>
@@ -43,13 +45,13 @@ class ProductDetail extends PureComponent {
                         onClick={() => this.handleClick(index)}
                         src={image}
                         alt=""
+                        key={image}
                       />
                     ))}
                   </div>
 
                   <StyledImage>
                     <img
-                      className=""
                       src={res.gallery[this.state.currentPhotoIndex]}
                       alt=""
                     />
@@ -63,13 +65,20 @@ class ProductDetail extends PureComponent {
                       {(context) => (
                         <form
                           onSubmit={(e) => {
+                            context.addToCart({
+                              data: data,
+                              quantity: 1,
+                              id: data.product.id,
+                              //passing state without currentPhotoIndex property
+                              attributes: (({ currentPhotoIndex, ...rest }) =>
+                                rest)(this.state),
+                            });
                             e.preventDefault();
-                            context.addToCart([data, this.state]);
                           }}
                         >
                           {res.attributes.map((attribute) => {
                             return (
-                              <StyledAttributesContainer>
+                              <StyledAttributesContainer key={attribute.name}>
                                 <h1 className="product-attribute-title__detail">
                                   {" "}
                                   {attribute.name}{" "}
@@ -77,7 +86,7 @@ class ProductDetail extends PureComponent {
                                 <div className="attributes">
                                   {attribute.items.map((item) => {
                                     return (
-                                      <div>
+                                      <div key={item.value}>
                                         {" "}
                                         {attribute.type !== "swatch" ? (
                                           <InputContainer isSwatch>
@@ -88,6 +97,7 @@ class ProductDetail extends PureComponent {
                                               isSwatch
                                               value={item.displayValue}
                                               name={attribute.name}
+                                              
                                             />
                                             <RadioButtonLabel isSwatch>
                                               {" "}

@@ -23,48 +23,74 @@ export default class MiniCart extends Component {
                 <StyledOverlay className="overlay"></StyledOverlay>
                 <StyledOverlayContent className="overlay-content">
                   <div className="overlay-header">
-                    <h3>My Bag {cart.length}</h3>
+                    <h3>Items in my bag {cart.length}</h3>
                   </div>
-                  {cart.map((item, index) => (
+                  {cart.map((product) => (
                     <>
-                        <StyledMiniCartBody className="overlay-body">
-                        
-                          <StyledProductInfoCol>
-                              <h1>{item[0].product.brand}</h1>
-                              <h1>{item[0].product.name}</h1>
-                              <StyledPriceContainer>
-                                <p>{item[0].product.prices[0].currency.symbol}</p>
-                                <p>{item[0].product.prices[0].amount}</p>
-                              </StyledPriceContainer>
-                              <button
-                                onClick={() => removeFromCart(item[0].product.id)}
-                              >
-                                {" "}
-                                usun{" "}
-                              </button>
-                              {item[0].product.attributes.map((attribute) => (
-                                <>
-                                  <StyledAttributesWrapper>
-                                    <p>{attribute.name}</p>
-                                    <StyledAttributesCointainer>
-                                      {attribute.type !== "swatch"
-                                        ? attribute.items.map((item) => <StyledAttributeBox>{item.value}</StyledAttributeBox>)
-                                        : attribute.items.map((item) => (
-                                            <StyledSwatchAttributeBox color={item.value}/>
-                                          ))}
-                                    </StyledAttributesCointainer>
-                                  </StyledAttributesWrapper>
-                                </>
-                              ))}
-                          </StyledProductInfoCol>
-                           <StyledProductGalleryCol><img src={item[0].product.gallery[0]} alt="" /></StyledProductGalleryCol>
-                        </StyledMiniCartBody>
-                        
+                      <StyledMiniCartBody className="overlay-body">
+                        <StyledDataInfoCol>
+                          <h1>{product.data.product.brand}</h1>
+                          <h1>{product.data.product.name}</h1>
+                          <h3>quantity: {product.quantity}</h3>
+                          <StyledPriceContainer>
+                            <p>
+                              {product.data.product.prices[0].currency.symbol}
+                            </p>
+                            <p>{product.data.product.prices[0].amount}</p>
+                          </StyledPriceContainer>
+                          <button
+                            onClick={() => removeFromCart(product.data.id)}
+                          >
+                            usun
+                          </button>
+                          {product.data.product.attributes.map((attribute) => (
+                            <>
+                              <StyledAttributesWrapper>
+                                <p>{attribute.name}</p>
+                                <StyledAttributesCointainer>
+                                  {attribute.type !== "swatch"
+                                    ? attribute.items.map((item) => (
+                                        <StyledAttributeBox
+                                          className={
+                                            Object.values(product.attributes)[
+                                              Object.keys(
+                                                product.attributes
+                                              ).indexOf(attribute.name)
+                                            ] === item.displayValue
+                                              ? "active-swatch"
+                                              : ""
+                                          }
+                                        >
+                                          {item.value}
+                                        </StyledAttributeBox>
+                                      ))
+                                    : attribute.items.map((item) => (
+                                        <StyledSwatchAttributeBox
+                                          className={
+                                            Object.values(product.attributes)[
+                                              Object.keys(
+                                                product.attributes
+                                              ).indexOf(attribute.name)
+                                            ] === item.displayValue
+                                              ? "active"
+                                              : ""
+                                          }
+                                          color={item.value}
+                                        />
+                                      ))}
+                                </StyledAttributesCointainer>
+                              </StyledAttributesWrapper>
+                            </>
+                          ))}
+                        </StyledDataInfoCol>
+                        <StyledDataGalleryCol>
+                          <img src={product.data.product.gallery} alt="" />
+                        </StyledDataGalleryCol>
+                      </StyledMiniCartBody>
                     </>
                   ))}
                 </StyledOverlayContent>
               </>
-              
             )}
           </CartContextConsumer>
         )}
@@ -74,39 +100,51 @@ export default class MiniCart extends Component {
 }
 
 const StyledAttributeBox = styled.div`
-border: 1px solid black;
-padding: .25em;
-`
+  border: 1px solid black;
+  padding: 0.25em;
+`;
 
 const StyledAttributesWrapper = styled.div`
-margin-top: 1em;
-display: flex;
-flex-direction: column;
-gap: 1em;
-`
+  margin-top: 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+
+  .active-swatch{
+    
+    background: black;
+    color: white;
+  }
+  .active {
+    outline: 1px solid #5ECE7B;
+    outline-offset: 1px;
+  }
+`;
 
 const StyledSwatchAttributeBox = styled.div`
-background: ${props => props.color};
-width: 30px;
-height: 30px;
-border: ${props => props.color === "#FFFFFF" ? "1px solid black" : "none"};
-`
+  background: ${(props) => props.color};
+  width: 30px;
+  height: 30px;
+  border: ${(props) =>
+    props.color === "#FFFFFF" ? "1px solid black" : "none"};
+`;
 const StyledPriceContainer = styled.div`
-display: flex;
-`
+  display: flex;
 
-const StyledProductInfoCol = styled.div`
- flex: 2;
  
-`
-const StyledProductGalleryCol = styled.div`
- flex: 1;
- min-width: 100px;
- img {
-  height: 100%;
-  object-fit: contain;
- }
-`
+`;
+
+const StyledDataInfoCol = styled.div`
+  flex: 2;
+`;
+const StyledDataGalleryCol = styled.div`
+  flex: 1;
+  min-width: 100px;
+  img {
+    height: 100%;
+    object-fit: contain;
+  }
+`;
 const StyledMiniCart = styled.div`
   position: relative;
   img {
@@ -116,7 +154,7 @@ const StyledMiniCart = styled.div`
 const StyledAttributesCointainer = styled.div`
   display: flex;
   gap: 1em;
-`
+`;
 const StyledOverlay = styled.div`
   position: fixed;
   left: 0;
@@ -129,7 +167,7 @@ const StyledOverlay = styled.div`
 
 const StyledOverlayContent = styled.div`
   top: 50px;
-  
+
   height: 400px;
   overflow-y: auto;
   padding: 2em;
@@ -140,5 +178,5 @@ const StyledOverlayContent = styled.div`
 `;
 
 const StyledMiniCartBody = styled.div`
-display: flex;
-`
+  display: flex;
+`;

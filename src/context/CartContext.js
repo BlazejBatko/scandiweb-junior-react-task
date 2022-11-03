@@ -7,8 +7,37 @@ class CartContextProvider extends Component {
     cart: [],
   };
 
+  containsObject = (obj, list) => {
+    return list.some((element) => element === obj);
+  };
+
+  arrayContainsObject = (array, object) => {
+    return array.some((item) =>
+      Object.keys(item).every((key) => item[key] === object[key])
+    );
+  };
   addToCart = (product) => {
-    this.setState({ cart: [...this.state.cart, product] });
+    if (
+      this.state.cart.some(
+        (element) =>
+          JSON.stringify(element.attributes) ===
+          JSON.stringify(product.attributes)
+      )
+    ) {
+      const productToUpdate = this.state.cart.find(
+        (element) =>
+          JSON.stringify(element.attributes) ===
+          JSON.stringify(product.attributes)
+      );
+      let quantity = (productToUpdate.quantity += 1);
+
+      productToUpdate.quantity = quantity;
+
+      //  this.setState(prev => (
+      //    {...prev}
+    } else {
+      this.setState({ cart: [...this.state.cart, product] });
+    }
   };
 
   removeFromCart = (id) => {

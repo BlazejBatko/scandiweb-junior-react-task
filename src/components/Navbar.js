@@ -24,7 +24,7 @@ class Navbar extends PureComponent {
                 if (loading) return <div>Loading</div>;
                 const { categories } = data;
                 return categories.map((category) => (
-                  <Link to={category.name}>
+                  <Link key={category.name} to={category.name}>
                     <li className={category.name === location ? "activeTab" : ""} key={category.name}> {category.name} </li>
                   </Link>
                 ));

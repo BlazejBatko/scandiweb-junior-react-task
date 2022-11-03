@@ -22,7 +22,7 @@ class DropDown extends PureComponent {
   };
 
   render() {
-    console.log(this.props.prices)
+   
     return (
       <CurrencyContextConsumer>
         {(context) => (
@@ -45,7 +45,7 @@ class DropDown extends PureComponent {
                       onClick={() => {
                         context.changeCurrency(index);
                         this.changeCurrency(index);
-                        console.log(context);
+                        
                       }}
                       className="dropdown-item"
                     >
