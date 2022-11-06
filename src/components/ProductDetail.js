@@ -11,7 +11,6 @@ class ProductDetail extends PureComponent {
 
   state = {
     currentPhotoIndex: 0,
-    
   };
 
   handleClick = (index) => {
@@ -20,7 +19,6 @@ class ProductDetail extends PureComponent {
 
   handleFormChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
-    
   };
 
   handleFormSubmit = (e, fn) => {
@@ -29,7 +27,6 @@ class ProductDetail extends PureComponent {
   };
 
   render() {
-    
     return (
       <section>
         <Query query={PRODUCT_BY_ID(this.id)}>
@@ -97,7 +94,6 @@ class ProductDetail extends PureComponent {
                                               isSwatch
                                               value={item.displayValue}
                                               name={attribute.name}
-                                              
                                             />
                                             <RadioButtonLabel isSwatch>
                                               {" "}
@@ -138,8 +134,18 @@ class ProductDetail extends PureComponent {
                               )}
                             </CurrencyContextConsumer>
                           </StyledPriceContainer>
-
-                          <StyledButtonCTA>add to cart</StyledButtonCTA>
+                          <CartContextConsumer>
+                            {(context) => (
+                              <StyledButtonCTA
+                                content={context.isItemInCart(data.product.id, {
+                                  attributes: (({
+                                    currentPhotoIndex,
+                                    ...rest
+                                  }) => rest)(this.state),
+                                })}
+                              ></StyledButtonCTA>
+                            )}
+                          </CartContextConsumer>
                         </form>
                       )}
                     </CartContextConsumer>
@@ -257,7 +263,25 @@ const StyledButtonCTA = styled.button`
   color: #fff;
   font-size: 1rem;
   padding: 1em 5em;
+  width: 200px;
+ 
   margin-top: 1.25em;
+  ${(props) =>
+    props.content === "add-to-cart"
+      ? `
+  background: #303030;
+  color: #fff;
+  `
+  : `
+   background: #5ece7b;`}
+
+  &::after {
+    text-align: center;
+    ${(props) =>
+      props.content === "add-to-cart"
+        ? "content: 'in Cart'"
+        : "content: 'Add to Cart'"};
+  }
 `;
 const StyledImage = styled.div`
   flex: 3 1 auto;

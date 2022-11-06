@@ -39,7 +39,7 @@ export default class MiniCart extends Component {
                             <p>{product.data.product.prices[0].amount}</p>
                           </StyledPriceContainer>
                           <button
-                            onClick={() => removeFromCart(product.data.id)}
+                            onClick={() => removeFromCart(product.id, product.attributes)}
                           >
                             usun
                           </button>

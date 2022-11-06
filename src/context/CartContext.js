@@ -16,12 +16,22 @@ class CartContextProvider extends Component {
       Object.keys(item).every((key) => item[key] === object[key])
     );
   };
+
+  isItemInCart = (id, attributes) => {
+    if (this.state.cart.find(element => (JSON.stringify(element.attributes) === JSON.stringify(attributes.attributes) && element.id === id))) {
+        
+        return "add-to-cart"
+    }
+    else {
+        return "in-cart"
+    }
+  }
   addToCart = (product) => {
     if (
       this.state.cart.some(
         (element) =>
           JSON.stringify(element.attributes) ===
-          JSON.stringify(product.attributes)
+          JSON.stringify(product.attributes) && element.id === product.id
       )
     ) {
       const productToUpdate = this.state.cart.find(
@@ -40,9 +50,9 @@ class CartContextProvider extends Component {
     }
   };
 
-  removeFromCart = (id) => {
+  removeFromCart = (id, attributes) => {
     this.setState({
-      cart: this.state.cart.filter((item) => item[0].product.id !== id),
+      cart: this.state.cart.filter((item) => JSON.stringify(item.attributes) !== JSON.stringify(attributes) || item.id !== id),
     });
   };
 
@@ -53,6 +63,7 @@ class CartContextProvider extends Component {
           cart: this.state.cart,
           addToCart: this.addToCart,
           removeFromCart: this.removeFromCart,
+          isItemInCart: this.isItemInCart,
         }}
       >
         {this.props.children}
