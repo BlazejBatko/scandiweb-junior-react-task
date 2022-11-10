@@ -1,4 +1,4 @@
-import { PureComponent } from "react";
+import React, { PureComponent } from "react";
 import { withRouter } from "react-router-dom";
 import { PRODUCT_BY_ID } from "../GraphQL/Queries";
 import { Query } from "@apollo/client/react/components";
@@ -9,6 +9,7 @@ import { CartContextConsumer } from "../context/CartContext";
 class ProductDetail extends PureComponent {
   id = this.props.match.params.productId;
 
+  ctaBtn = React.createRef();
   state = {
     currentPhotoIndex: 0,
   };
@@ -27,6 +28,7 @@ class ProductDetail extends PureComponent {
   };
 
   render() {
+    console.log(this.ctaBtn.innerHTML);
     return (
       <section>
         <Query query={PRODUCT_BY_ID(this.id)}>
@@ -137,13 +139,19 @@ class ProductDetail extends PureComponent {
                           <CartContextConsumer>
                             {(context) => (
                               <StyledButtonCTA
-                                content={context.isItemInCart(data.product.id, {
-                                  attributes: (({
-                                    currentPhotoIndex,
-                                    ...rest
-                                  }) => rest)(this.state),
-                                })}
-                              ></StyledButtonCTA>
+                                ref={this.ctaBtn}
+                                disabled={!res.inStock}
+                                content={this.ctaBtn.innerHTML}
+                              >
+                                {res.inStock
+                                  ? context.isItemInCart(data.product.id, {
+                                      attributes: (({
+                                        currentPhotoIndex,
+                                        ...rest
+                                      }) => rest)(this.state),
+                                    })
+                                  : "out of stock"}
+                              </StyledButtonCTA>
                             )}
                           </CartContextConsumer>
                         </form>
@@ -247,6 +255,8 @@ const StyledDescription = styled.div`
   height: 300px;
   overflow-y: auto;
   gap: 20px;
+  display: flex;
+  flex-direction: column;
   ul {
     list-style: none;
   }
@@ -262,27 +272,22 @@ const StyledButtonCTA = styled.button`
   border: none;
   color: #fff;
   font-size: 1rem;
-  padding: 1em 5em;
+  padding: 1em 2em;
   width: 200px;
- 
-  margin-top: 1.25em;
-  ${(props) =>
-    props.content === "add-to-cart"
-      ? `
-  background: #303030;
-  color: #fff;
-  `
-  : `
-   background: #5ece7b;`}
 
-  &::after {
-    text-align: center;
-    ${(props) =>
-      props.content === "add-to-cart"
-        ? "content: 'in Cart'"
-        : "content: 'Add to Cart'"};
-  }
-`;
+  margin-top: 1.25em;
+
+  ${({ children }) => {
+   switch (children) {
+    case "out of stock":
+      return 'background: #e0e0e0; cursor: not-allowed;';
+    case "in cart":
+      return 'background: #303030;';
+    default:
+      return 'background: #5ece7b; cursor: pointer;';
+   }
+  }}
+`
 const StyledImage = styled.div`
   flex: 3 1 auto;
   display: flex;

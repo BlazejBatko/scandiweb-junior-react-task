@@ -4,26 +4,28 @@ const { Provider, Consumer } = React.createContext();
 
 class CartContextProvider extends Component {
   state = {
-    cart: [],
+    cart: localStorage.getItem("cart") ? (JSON.parse(localStorage.getItem("cart"))).cart : [],
   };
 
-  containsObject = (obj, list) => {
-    return list.some((element) => element === obj);
-  };
 
-  arrayContainsObject = (array, object) => {
-    return array.some((item) =>
-      Object.keys(item).every((key) => item[key] === object[key])
-    );
-  };
+  getTotalItemsQuantity = () => {
+    let sum = 0;
+    this.state.cart.forEach((item) => {
+      sum += item.quantity;
+    });
+    return sum;
+  }
+
+
+
 
   isItemInCart = (id, attributes) => {
     if (this.state.cart.find(element => (JSON.stringify(element.attributes) === JSON.stringify(attributes.attributes) && element.id === id))) {
         
-        return "add-to-cart"
+        return "in cart"
     }
     else {
-        return "in-cart"
+        return "add to cart"
     }
   }
   addToCart = (product) => {
@@ -34,21 +36,39 @@ class CartContextProvider extends Component {
           JSON.stringify(product.attributes) && element.id === product.id
       )
     ) {
-      const productToUpdate = this.state.cart.find(
-        (element) =>
-          JSON.stringify(element.attributes) ===
-          JSON.stringify(product.attributes)
-      );
-      let quantity = (productToUpdate.quantity += 1);
+       this.changeProductQuantity(product, 1)
 
-      productToUpdate.quantity = quantity;
-
-      //  this.setState(prev => (
-      //    {...prev}
     } else {
       this.setState({ cart: [...this.state.cart, product] });
+      // localStorage.setItem("cart", [JSON.stringify({cart: [...this.state.cart, product]})]);
+      
     }
   };
+
+  getTotalPrice = (indexOfselectedCurrency) => {
+    let sum = 0;
+    let symbol = "";
+      this.state.cart.forEach((item) => {
+      sum += item.data.product.prices[indexOfselectedCurrency || 0].amount * item.quantity;
+      symbol = item.data.product.prices[indexOfselectedCurrency || 0].currency.symbol;
+    });
+    return sum.toFixed(2) + " " + symbol;
+  };
+
+  changeProductQuantity = (product, quantity) => {
+    const productToUpdate = this.state.cart.find(
+      (element) =>
+        JSON.stringify(element.attributes) ===
+        JSON.stringify(product.attributes)
+    );
+
+    let quant = (productToUpdate.quantity += quantity);
+    productToUpdate.quantity = quant;
+
+    this.setState(prev => (
+      {...prev}
+    ))
+  }
 
   removeFromCart = (id, attributes) => {
     this.setState({
@@ -57,6 +77,8 @@ class CartContextProvider extends Component {
   };
 
   render() {
+    console.log(this.getTotalPrice())
+    localStorage.setItem("cart", [JSON.stringify({cart: this.state.cart})]);
     return (
       <Provider
         value={{
@@ -64,6 +86,9 @@ class CartContextProvider extends Component {
           addToCart: this.addToCart,
           removeFromCart: this.removeFromCart,
           isItemInCart: this.isItemInCart,
+          changeProductQuantity: this.changeProductQuantity,
+          getTotalItemsQuantity: this.getTotalItemsQuantity(),
+          getTotalPrice: this.getTotalPrice,
         }}
       >
         {this.props.children}

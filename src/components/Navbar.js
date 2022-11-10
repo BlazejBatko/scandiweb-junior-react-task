@@ -8,6 +8,7 @@ import { Query } from "@apollo/client/react/components";
 import DropDown from "./Dropdown";
 import { withRouter } from "react-router-dom";
 import MiniCart from "./MiniCart";
+import { CartContextConsumer } from "../context/CartContext";
 class Navbar extends PureComponent {
  
 
@@ -40,7 +41,10 @@ class Navbar extends PureComponent {
                 return (
                   <div className="flex-column">
                     <DropDown prices={currencies} />
-                    <MiniCart />
+                    <CartContextConsumer>
+                      {({ cart }) => <MiniCart cart={cart} />}
+                    </CartContextConsumer>
+                    
                   </div>
                 );
               }

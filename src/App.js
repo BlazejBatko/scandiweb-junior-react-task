@@ -9,7 +9,7 @@ import { PureComponent } from "react";
 import { onError } from "@apollo/client/link/error";
 import GetCategories from "./components/Navbar";
 import { Switch, Route } from "react-router-dom";
-import AllCategory from "./components/AllCategory";
+import ProductListingPage from "./components/ProductListingPage";
 import ProductDetail from "./components/ProductDetail";
 
 const errorLink = onError(({ graphqlErrors, networkErorr }) => {
@@ -40,13 +40,13 @@ class App extends PureComponent {
         <div id="app-wrapper">
         <Switch>
           <Route path="/tech">
-            <AllCategory category={"tech"} />
+            <ProductListingPage category={"tech"} />
           </Route>
           <Route path="/clothes">
-            <AllCategory category={"clothes"} />
+            <ProductListingPage category={"clothes"} />
           </Route>
           <Route path="/all">
-            <AllCategory category={"all"} />
+            <ProductListingPage category={"all"} />
           </Route>
           <Route path="/:productId">
             <ProductDetail />
