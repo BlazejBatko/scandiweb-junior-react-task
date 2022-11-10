@@ -28,7 +28,7 @@ class ProductDetail extends PureComponent {
   };
 
   render() {
-    console.log(this.ctaBtn.innerHTML);
+
     return (
       <section>
         <Query query={PRODUCT_BY_ID(this.id)}>

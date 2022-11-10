@@ -21,8 +21,9 @@ class Navbar extends PureComponent {
         <StyledNavbar>
           <div className="flex-column">
             <Query query={LOAD_CATEGORIES}>
-              {({ loading, data }) => {
+              {({ loading, data, error }) => {
                 if (loading) return <div>Loading</div>;
+                if (error) return <div>something went wrong :(</div>;
                 const { categories } = data;
                 return categories.map((category) => (
                   <Link key={category.name} to={category.name}>
@@ -34,8 +35,9 @@ class Navbar extends PureComponent {
           </div>
           <img className="logo" src={logoIcon} alt="logo" />
           <Query query={GET_AVAILABLE_PRICES}>
-            {({ loading, data }) => {
+            {({ loading, data, error }) => {
               if (loading) return <div>Loading</div>;
+              if (error) return <div>something went wrong :(</div>;
               if (data) {
                 const { currencies } = data;
                 return (
@@ -60,6 +62,7 @@ export default withRouter(Navbar);
 
 const StyledNavbar = styled.ul`
   padding: 1.75em 0;
+  margin-bottom: 5em;
   list-style: none;
   display: flex;
   gap: 1em;
@@ -94,7 +97,7 @@ const StyledNavbar = styled.ul`
   .activeTab::after {
     content: "";
     position: absolute;
-    top: 40px;
+    top: 30px;
     left: 50%;
     transform: translateX(-50%);
     width: 120%;

@@ -33,23 +33,21 @@ const GlobalStyle = createGlobalStyle`
     .product-name__category {
         font-size: 1.125rem;
         font-weight: 300;
-        line-height: 28.8px
-
     }
     .product-price__category {
         font-size: 1.125rem;
         font-weight: 500;
-        line-height: 28.8px
+  
     }
 
     .product-brand__detail {
-        font-weight: 600;
         font-size: 1.875rem;
-        line-height: 27px;
+        font-weight: 600;
+       
     }
     .product-name__detail {
-        font-weight: 400;
         font-size: 1.875rem;
+        font-weight: 400;
     }
     .product-attribute-title__detail,
     .product-attribute-price-title__detail  {
@@ -59,9 +57,9 @@ const GlobalStyle = createGlobalStyle`
     }
 
     .product-price__detail {
-        font-weight: 700;
         font-size: 1.5rem;
-        line-height: 18px;
+        font-weight: 700;
+        
     }
 
     .product-description__detail {
@@ -71,21 +69,21 @@ const GlobalStyle = createGlobalStyle`
     }
 
     .product-brand__cart, .product-name__cart {
-        font-weight: 300;
         font-size: 1rem;
-        line-height: 27px
+        font-weight: 300;
+    
     }
 
     .product-price__cart {
-        font-weight: 500;
         font-size: 1rem;
-        line-height: 27px
+        font-weight: 500;
+     
     }
 
     .product-attribute-label__cart {
         font-weight: 400;
         font-size: 0.875rem;
-        line-height: 16px;
+   
     }
 
     .product-attribute-text__cart {
@@ -102,22 +100,30 @@ const GlobalStyle = createGlobalStyle`
 
     .product-total-price-value__cart{
         font-size: 1rem;
-        font-family: 'Raleway', sans-serif;
         font-weight: 700;
     }
 
     .my-bag-label-text__cart {
-        font-weight: 700;
         font-size: 1rem;
+        font-weight: 700;
     }
 
     .my-bag-items-count__cart {
-        font-weight: 500;
-        font-style: 'Raleway', sans-serif;
         font-size: 1rem;
+        font-weight: 500;
     }
-
-
+    .product-price__cart__page {
+    font-size: 1.5rem;
+    font-weight: 700;
+    }
+    .product-name__cart__page {
+    font-size: 1.875rem;
+    font-weight: 400;
+    }
+    .product-brand__cart__page {
+        font-size: 1.875rem;
+        font-weight: 600;
+    }
    
 
 `

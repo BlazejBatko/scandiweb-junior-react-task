@@ -22,6 +22,7 @@ query{
   category(input: {title: "${productsCategory}"}) {
       products {
       name
+      brand
       id
       gallery
       inStock

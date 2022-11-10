@@ -42,6 +42,7 @@ class DropDown extends PureComponent {
                 {this.state.currencies.map((currency, index) => {
                   return (
                     <div
+                      key={index}
                       onClick={() => {
                         context.changeCurrency(index);
                         this.changeCurrency(index);
@@ -68,9 +69,11 @@ export default DropDown;
 
 const StyledDropDownWrapper = styled.div`
  width: 40px;
+ z-index: 5;
   .dropdown {
     width: 200px;
     position: relative;
+   
   }
 
   .dropdown-btn {

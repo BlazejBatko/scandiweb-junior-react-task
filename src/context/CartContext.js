@@ -40,8 +40,6 @@ class CartContextProvider extends Component {
 
     } else {
       this.setState({ cart: [...this.state.cart, product] });
-      // localStorage.setItem("cart", [JSON.stringify({cart: [...this.state.cart, product]})]);
-      
     }
   };
 
@@ -77,7 +75,6 @@ class CartContextProvider extends Component {
   };
 
   render() {
-    console.log(this.getTotalPrice())
     localStorage.setItem("cart", [JSON.stringify({cart: this.state.cart})]);
     return (
       <Provider

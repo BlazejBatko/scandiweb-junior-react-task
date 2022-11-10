@@ -3,10 +3,11 @@ import emptyCartIcon from "../assets/empty-cart.svg";
 import styled from "styled-components";
 import { CartContextConsumer } from "../context/CartContext";
 import { CurrencyContextConsumer } from "../context/CurrencyContext";
+import CartProductCard from "./CartProductCard";
+import { Link } from "react-router-dom";
 export default class MiniCart extends Component {
   state = {
     overlayOpen: false,
-    quantity: 1,
   };
 
   toggleOverlay = () => {
@@ -18,13 +19,7 @@ export default class MiniCart extends Component {
     return (
       <StyledMiniCart className="mini-cart">
         <CartContextConsumer>
-          {({
-            cart,
-            removeFromCart,
-            changeProductQuantity,
-            getTotalItemsQuantity,
-            getTotalPrice,
-          }) => (
+          {({ cart, getTotalItemsQuantity, getTotalPrice }) => (
             <>
               <StyledCartIconContainer
                 length={getTotalItemsQuantity}
@@ -36,150 +31,58 @@ export default class MiniCart extends Component {
 
               {this.state.overlayOpen && (
                 <>
-                <StyledOverlay className="overlay"></StyledOverlay>
-                  {cart.length > 0 ? ( 
-                    <> 
-                  
-                  <StyledOverlayContent className="overlay-content">
-                    <div className="overlay-header">
-                      <span className="my-bag-label-text__cart ">My Bag, <span className="my-bag-items-count__cart"> {cart.length} {cart.length > 1 ? "items" : "item"}</span></span>
-                    </div>
-                    <StyledCartProductsContainer className="">
-                      {cart.map((product, index) => (
-                        <>
-                          <StyledMiniCartBody className="overlay-body">
-                            <StyledDataInfoCol>
-                              <p className="product-brand__cart">
-                                {product.data.product.brand}
-                              </p>
-                              <p className="product-name__cart">
-                                {product.data.product.name}
-                              </p>
-                              <CurrencyContextConsumer>
-                                {({ currencyIndex }) => (
-                                  <StyledPriceContainer>
-                                    <p className="product-price__cart">
-                                      {
-                                        product.data.product.prices[
-                                          currencyIndex
-                                        ].currency.symbol
-                                      }
-                                    </p>
-                                    <p className="product-price__cart">
-                                      {
-                                        product.data.product.prices[
-                                          currencyIndex
-                                        ].amount
-                                      }
-                                    </p>
-                                  </StyledPriceContainer>
-                                )}
-                              </CurrencyContextConsumer>
-
-                              {product.data.product.attributes.map(
-                                (attribute) => (
-                                  <>
-                                    <StyledAttributesWrapper>
-                                      <p className="product-attribute-label__cart">
-                                        {attribute.name}
-                                      </p>
-                                      <StyledAttributesCointainer>
-                                        {attribute.type !== "swatch"
-                                          ? attribute.items.map((item) => (
-                                              <StyledAttributeBox
-                                                className={
-                                                  Object.values(
-                                                    product.attributes
-                                                  )[
-                                                    Object.keys(
-                                                      product.attributes
-                                                    ).indexOf(attribute.name)
-                                                  ] === item.displayValue
-                                                    ? "active-swatch"
-                                                    : ""
-                                                }
-                                              >
-                                                <span className="product-attribute-text__cart">
-                                                  {" "}
-                                                  {item.value}{" "}
-                                                </span>
-                                              </StyledAttributeBox>
-                                            ))
-                                          : attribute.items.map((item) => (
-                                              <StyledSwatchAttributeBox
-                                                className={
-                                                  Object.values(
-                                                    product.attributes
-                                                  )[
-                                                    Object.keys(
-                                                      product.attributes
-                                                    ).indexOf(attribute.name)
-                                                  ] === item.displayValue
-                                                    ? "active"
-                                                    : ""
-                                                }
-                                                color={item.value}
-                                              />
-                                            ))}
-                                      </StyledAttributesCointainer>
-                                    </StyledAttributesWrapper>
-                                  </>
-                                )
-                              )}
-                            </StyledDataInfoCol>
-                            <StyledQuantityCol>
-                              <StyledQuantityBtn
-                                onClick={() =>
-                                  changeProductQuantity(product, 1)
-                                }
-                              >
-                                +
-                              </StyledQuantityBtn>
-                              <h3>{this.props.cart[index].quantity}</h3>
-                              <StyledQuantityBtn
-                                onClick={() =>
-                                  this.props.cart[index].quantity > 1
-                                    ? changeProductQuantity(product, -1)
-                                    : removeFromCart(
-                                        product.id,
-                                        product.attributes
-                                      )
-                                }
-                              >
-                                -
-                              </StyledQuantityBtn>
-                            </StyledQuantityCol>
-                            <StyledDataGalleryCol>
-                              <img src={product.data.product.gallery[0]} alt="" />
-                            </StyledDataGalleryCol>
-                          </StyledMiniCartBody>
-                        </>
-                      ))}
-                    </StyledCartProductsContainer>
-                    <StyledOverlayFooter className="overlay-footer">
-                      <StyledTotalPriceContainer>
-                        <span className="product-total-price-label__cart "> Total Price</span>
-                        <CurrencyContextConsumer>
-                          {({ currencyIndex }) => (
-                            <span className="product-total-price-value__cart"> {getTotalPrice(currencyIndex)} </span>
-                          )}
-                        </CurrencyContextConsumer>
-                      </StyledTotalPriceContainer>
-                      <div>
-                        <StyledOverlayFooterCTA>
-                          view bag
-                        </StyledOverlayFooterCTA>
-                        <StyledOverlayFooterCTA checkout>
-                          checkout
-                        </StyledOverlayFooterCTA>
+                  <StyledOverlay className="overlay"></StyledOverlay>
+                  {cart.length > 0 ? (
+                    <StyledOverlayContent className="overlay-content">
+                      <div className="overlay-header">
+                        <span className="my-bag-label-text__cart ">
+                          My Bag, 
+                          <span className="my-bag-items-count__cart">
+                            {cart.length} {cart.length > 1 ? "items" : "item"}
+                          </span>
+                        </span>
                       </div>
-                    </StyledOverlayFooter>
-                  </StyledOverlayContent>
-                  </>
-                  ) : <StyledOverlayContentEmpty >
-                     <span>Your cart is empty </span>
-                     <span>(´。＿。｀) </span>
-                     </StyledOverlayContentEmpty>}
+                      <StyledCartProductsContainer>
+                        {cart.map((product, index) => (
+                          <CartProductCard
+                            key={index}
+                            product={product}
+                            index={index}
+                            {...this.props}
+                          />
+                        ))}
+                      </StyledCartProductsContainer>
+                      <StyledOverlayFooter className="overlay-footer">
+                        <StyledTotalPriceContainer>
+                          <span className="product-total-price-label__cart ">
+                            Total Price
+                          </span>
+                          <CurrencyContextConsumer>
+                            {({ currencyIndex }) => (
+                              <span className="product-total-price-value__cart">
+                                {getTotalPrice(currencyIndex)}
+                              </span>
+                            )}
+                          </CurrencyContextConsumer>
+                        </StyledTotalPriceContainer>
+                        <div>
+                          <Link to="/cart" onClick={this.toggleOverlay}>
+                            <StyledOverlayFooterCTA>
+                              view bag
+                            </StyledOverlayFooterCTA>
+                          </Link>
+                          <StyledOverlayFooterCTA checkout>
+                            checkout
+                          </StyledOverlayFooterCTA>
+                        </div>
+                      </StyledOverlayFooter>
+                    </StyledOverlayContent>
+                  ) : (
+                    <StyledOverlayContentEmpty>
+                      <span>Your cart is empty </span>
+                      <span>(´。＿。｀) </span>
+                    </StyledOverlayContentEmpty>
+                  )}
                 </>
               )}
             </>
@@ -228,20 +131,6 @@ const StyledCartIconContainer = styled.div`
 `;
 
 
-const StyledAttributeBox = styled.div`
-  border: 1px solid black;
-  padding: 0.5em;
-
-  text-align: center;
-`;
-
-const StyledQuantityCol = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-`;
-
 const StyledOverlayFooterCTA = styled.button`
   cursor: pointer;
   text-transform: uppercase;
@@ -253,15 +142,6 @@ const StyledOverlayFooterCTA = styled.button`
   ${(props) =>
     props.checkout ? "color: white; background: #5ECE7B; border: none;" : ""};
 `;
-const StyledQuantityBtn = styled.button`
-  cursor: pointer;
-  width: 30px;
-  height: 30px;
-  border: 1px solid black;
-  background: white;
-  color: black;
-  font-size: 1.2rem;
-`;
 
 const StyledOverlayFooter = styled.div`
   display: flex;
@@ -269,51 +149,11 @@ const StyledOverlayFooter = styled.div`
   flex-direction: column;
   gap: 0.25em;
 `;
-const StyledAttributesWrapper = styled.div`
-  margin-top: 1em;
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
 
-  .active-swatch {
-    background: black;
-    color: white;
-  }
-  .active {
-    outline: 1px solid #5ece7b;
-    outline-offset: 1px;
-  }
-`;
-
-const StyledSwatchAttributeBox = styled.div`
-  background: ${(props) => props.color};
-  width: 20px;
-  height: 20px;
-  border: ${(props) =>
-    props.color === "#FFFFFF" ? "1px solid black" : "none"};
-`;
-const StyledPriceContainer = styled.div`
-  display: flex;
-`;
-
-const StyledDataInfoCol = styled.div`
-  flex: 1;
-`;
-const StyledDataGalleryCol = styled.div`
-  flex: 1;
-  min-width: 100px;
-  img {
-    height: 100%;
-    object-fit: cover;
-  }
-`;
 const StyledMiniCart = styled.div`
   position: relative;
 `;
-const StyledAttributesCointainer = styled.div`
-  display: flex;
-  gap: 1em;
-`;
+
 const StyledOverlay = styled.div`
   position: fixed;
   left: 0;
@@ -326,8 +166,7 @@ const StyledOverlay = styled.div`
 
 const StyledOverlayContent = styled.div`
   top: 50px;
-  width: 500px;
-  padding: 2em;
+  padding: 1em;
   right: 0;
   position: absolute;
   z-index: 2;
@@ -335,16 +174,16 @@ const StyledOverlayContent = styled.div`
 `;
 
 const StyledOverlayContentEmpty = styled(StyledOverlayContent)`
-display: flex;
-align-items: center;
-justify-content: center;
-gap: 1em;
-`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+`;
 
 const StyledCartProductsContainer = styled.div`
   height: 400px;
   overflow-y: auto;
-
+  
   &::-webkit-scrollbar {
     width: 0.5em;
   }
@@ -357,8 +196,4 @@ const StyledCartProductsContainer = styled.div`
   &::-webkit-scrollbar-thumb:hover {
     background: #555;
   }
-`;
-const StyledMiniCartBody = styled.div`
-  display: flex;
-  margin: 3em 0;
 `;

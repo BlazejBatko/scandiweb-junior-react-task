@@ -10,12 +10,13 @@ class ProductListingPage extends PureComponent {
         <StyledHeading className="heading">{this.props.category}</StyledHeading>
         <StyledProductsGrid>
           <Query query={PRODUCTS_FROM_CATEGORY(this.props.category)}>
-            {({ loading, data }) => {
+            {({ loading, data, error }) => {
               if (loading) return <div>Loading</div>;
+              if (error) return <div>something went wrong :(</div>;
               return data.category.products.map((product) => {
                 return (
                   
-                    <ProductCard product={product} />
+                    <ProductCard key={product.id} product={product} />
                   
                 );
               });
@@ -43,10 +44,4 @@ const StyledProductsGrid = styled.div`
   gap: 3.5em;
   grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
 
-  .ps-5 > img {
-    object-position: bottom;
-  }
-  .jacket-canada-goosee > img {
-    object-position: top;
-  }
 `;

@@ -11,7 +11,7 @@ import GetCategories from "./components/Navbar";
 import { Switch, Route } from "react-router-dom";
 import ProductListingPage from "./components/ProductListingPage";
 import ProductDetail from "./components/ProductDetail";
-
+import CartPage from "./pages/CartPage";
 const errorLink = onError(({ graphqlErrors, networkErorr }) => {
   if (graphqlErrors) {
     graphqlErrors.map(({ message, location, path }) => {
@@ -48,9 +48,13 @@ class App extends PureComponent {
           <Route path="/all">
             <ProductListingPage category={"all"} />
           </Route>
+          <Route path="/cart">
+            <CartPage />
+          </Route>
           <Route path="/:productId">
             <ProductDetail />
           </Route>
+          
         </Switch>
         </div>
       </ApolloProvider>
