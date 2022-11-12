@@ -8,46 +8,45 @@ import { Query } from "@apollo/client/react/components";
 import DropDown from "./Dropdown";
 import { withRouter } from "react-router-dom";
 import MiniCart from "./MiniCart";
-import { CartContextConsumer } from "../context/CartContext";
+
 class Navbar extends PureComponent {
- 
-
-
   render() {
-    const location = this.props.location.pathname.slice(1)
-    
+    const location = this.props.location.pathname.slice(1);
+
     return (
       <nav>
         <StyledNavbar>
-          <div className="flex-column">
+          <StyledNavbarItemsContainer>
             <Query query={LOAD_CATEGORIES}>
               {({ loading, data, error }) => {
                 if (loading) return <div>Loading</div>;
                 if (error) return <div>something went wrong :(</div>;
-                const { categories } = data;
-                return categories.map((category) => (
+                return data.categories.map((category) => (
                   <Link key={category.name} to={category.name}>
-                    <li className={category.name === location ? "activeTab" : ""} key={category.name}> {category.name} </li>
+                    <StyledLi
+                      active={category.name === location}
+                      key={category.name}
+                    >
+                      {category.name}
+                    </StyledLi>
                   </Link>
                 ));
               }}
             </Query>
-          </div>
-          <img className="logo" src={logoIcon} alt="logo" />
+          </StyledNavbarItemsContainer>
+
+          <StyledLogoImg className="logo" src={logoIcon} alt="logo" />
+
           <Query query={GET_AVAILABLE_PRICES}>
             {({ loading, data, error }) => {
               if (loading) return <div>Loading</div>;
-              if (error) return <div>something went wrong :(</div>;
+              if (error) return <div>something went wrong :( </div>;
               if (data) {
-                const { currencies } = data;
                 return (
-                  <div className="flex-column">
-                    <DropDown prices={currencies} />
-                    <CartContextConsumer>
-                      {({ cart }) => <MiniCart cart={cart} />}
-                    </CartContextConsumer>
-                    
-                  </div>
+                  <StyledNavbarItemsContainer>
+                    <DropDown prices={data.currencies} />
+                    <MiniCart />
+                  </StyledNavbarItemsContainer>
                 );
               }
             }}
@@ -60,58 +59,52 @@ class Navbar extends PureComponent {
 
 export default withRouter(Navbar);
 
+const StyledLogoImg = styled.img`
+  position: absolute;
+  left: 50vw;
+  transform: translateX(-50%);
+
+  @media (max-width: 768px) {
+    position: unset;
+  }
+`;
+const StyledLi = styled.li`
+  text-transform: uppercase;
+  font-weight: 400;
+  font-size: 1rem;
+
+  ${({ active }) =>
+    active &&
+    `
+    position: relative;
+    color: #5ECE7B;
+    font-weight: 600;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120%;
+      height: 2px;
+      background: #5ECE7B;
+    }
+    `}
+`;
+const StyledNavbarItemsContainer = styled.div`
+  display: flex;
+  gap: 2em;
+`;
 const StyledNavbar = styled.ul`
   padding: 1.75em 0;
   margin-bottom: 5em;
   list-style: none;
   display: flex;
-  gap: 1em;
   align-items: center;
   justify-content: space-between;
 
-  li {
-    color: #1d1f22;
-    text-transform: uppercase;
-    font-weight: 600;
-    
-  }
-
-  .logo {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  @media (max-width: 768px) {
-
-    .logo {
-      position: unset
-    }
-  }
-
-  .activeTab {
-    position: relative;
-    color: #5ECE7B;
-  }
-
-  .activeTab::after {
-    content: "";
-    position: absolute;
-    top: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 120%;
-    height: 2px;
-    background: #5ECE7B;
-
-
-  }
   a {
     text-decoration: none;
-  }
-
-  .flex-column {
-    display: flex;
-    gap: 1em;
   }
 `;

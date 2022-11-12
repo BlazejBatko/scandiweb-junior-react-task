@@ -2,14 +2,15 @@ import React, { Component } from "react";
 import styled from "styled-components";
 export default class AttributesComponent extends Component {
   render() {
-    const { attribute, product } = this.props;
+    const { attribute, product, isOnCartPage } = this.props;
     return (
       <StyledAttributesWrapper>
-        <p className="product-attribute-label__cart">{attribute.name}</p>
+        <StyledAttributeNameLabel isOnCartPage={isOnCartPage}>{attribute.name}:</StyledAttributeNameLabel>
         <StyledAttributesCointainer>
           {attribute.type !== "swatch"
             ? attribute.items.map((item) => (
                 <StyledAttributeBox
+                  isOnCartPage={isOnCartPage}
                   key={item.value}
                   className={
                     Object.values(product.attributes)[
@@ -19,13 +20,14 @@ export default class AttributesComponent extends Component {
                       : ""
                   }
                 >
-                  <span className="product-attribute-text__cart">
+                  <StyledAttributeBoxText  isOnCartPage={isOnCartPage}>
                     {item.value}
-                  </span>
+                  </StyledAttributeBoxText>
                 </StyledAttributeBox>
               ))
             : attribute.items.map((item) => (
                 <StyledSwatchAttributeBox
+                isOnCartPage={isOnCartPage}
                  key={item.value}
                   className={
                     Object.values(product.attributes)[
@@ -44,21 +46,48 @@ export default class AttributesComponent extends Component {
 }
 
 const StyledSwatchAttributeBox = styled.div`
-  background: ${(props) => props.color};
+  background: ${({color}) => color};
+
+  border: ${({color}) => color === "#FFFFFF" ? "1px solid black" : "none"};
+
+  ${({ isOnCartPage }) => isOnCartPage ? `
+  width: 32px;
+  height: 32px;
+  ` : `
   width: 16px;
   height: 16px;
-  border: ${(props) =>
-    props.color === "#FFFFFF" ? "1px solid black" : "none"};
+  `
+  }
 `;
 
+const StyledAttributeBoxText = styled.span`
+font-weight: 400;
+font-family: 'Source Sans Pro';
+`
+
+const StyledAttributeNameLabel = styled.h3`
+
+${({ isOnCartPage }) => isOnCartPage ? `
+font-weight: 700;
+font-family: 'Roboto Condensed';
+font-size: 1.125rem;
+text-transform: uppercase;
+` : `
+
+font-weight: 400;
+font-size: 0.875rem;
+text-transform: capitalize;
+` }
+
+`
 const StyledAttributesWrapper = styled.div`
-  margin-top: 1em;
+  margin-bottom: 0.5em;
   display: flex;
   flex-direction: column;
   gap: 0.5em;
 
   .active-swatch {
-    background: black;
+    background: #1D1F22;
     color: white;
   }
   .active {
@@ -75,9 +104,19 @@ const StyledAttributesCointainer = styled.div`
 
 const StyledAttributeBox = styled.div`
   border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  ${({ isOnCartPage }) => isOnCartPage ? `
+  min-width: 65px;
+  height: 45px;
+  padding: 0 0.8em;
+
+  ` : `
   padding: 0 0.2em;
   min-width: 24px;
   min-height: 24px;
-
-  text-align: center;
+  ` }
 `;

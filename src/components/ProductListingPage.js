@@ -7,7 +7,7 @@ class ProductListingPage extends PureComponent {
   render() {
     return (
       <main>
-        <StyledHeading className="heading">{this.props.category}</StyledHeading>
+        <StyledHeading>{this.props.category}</StyledHeading>
         <StyledProductsGrid>
           <Query query={PRODUCTS_FROM_CATEGORY(this.props.category)}>
             {({ loading, data, error }) => {
@@ -15,9 +15,7 @@ class ProductListingPage extends PureComponent {
               if (error) return <div>something went wrong :(</div>;
               return data.category.products.map((product) => {
                 return (
-                  
                     <ProductCard key={product.id} product={product} />
-                  
                 );
               });
             }}
@@ -32,6 +30,9 @@ export default ProductListingPage;
 
 const StyledHeading = styled.h1`
   margin-top: 2em;
+  font-weight: 400;
+  font-size: 2.5rem;
+  text-transform: capitalize;
 `;
 
 const StyledProductsGrid = styled.div`

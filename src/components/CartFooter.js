@@ -10,17 +10,16 @@ export default class CartFooter extends Component {
         {({ currencyIndex }) => (
           <>
             <StyledCartFooterContainer>
-              <p> Tax 21%: </p>
-              <p>
-                {" "}
+              <StyledTextInfo> Tax 21%: </StyledTextInfo>
+              <StyledValueInfo>
                 {(Number(total(currencyIndex).slice(0, -1)) * 0.21).toFixed(2)}
-              </p>
+              </StyledValueInfo>
 
-              <p> Quantity: </p>
-              <p> {quantity} </p>
+              <StyledTextInfo> Quantity: </StyledTextInfo>
+              <StyledValueInfo> {quantity} </StyledValueInfo>
 
-              <p> Total: </p>
-              <p> {total(currencyIndex)} </p>
+              <StyledTextTotal> Total: </StyledTextTotal>
+              <StyledValueInfo> {total(currencyIndex)} </StyledValueInfo>
             </StyledCartFooterContainer>
             <StyledOrderCTA> ORDER </StyledOrderCTA>
           </>
@@ -32,17 +31,33 @@ export default class CartFooter extends Component {
 
 const StyledCartFooterContainer = styled.div`
   display: grid;
-  grid-template-columns: 80px auto;
+  grid-template-columns: min-content auto;
   grid-template-rows: 1fr 1fr 1fr;
+  gap: 0.5em;
+  margin-top: 2em;
 `;
 
+const StyledTextInfo = styled.span`
+font-weight: 400;
+font-size: 1.5rem;
+`
+
+const StyledTextTotal = styled.span`
+font-weight: 500px;
+font-size: 1.5rem;
+`
+const StyledValueInfo = styled.span` 
+font-weight: 700;
+font-size: 1.5rem;
+`
 const StyledOrderCTA = styled.button`
 
 border: none;
 color: #fff;
 background-color: #5ECE7B;
-width: 17.5em;
-height: 2.7rem;
+width: 280px;
+height: 43px;
+margin-top: 1em;
 
 &:hover {
     cursor: pointer;

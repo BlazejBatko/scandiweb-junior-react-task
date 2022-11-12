@@ -4,14 +4,14 @@ const {Provider, Consumer} = React.createContext()
 
 class CurrencyContextProvider extends Component {
  state = {
-    currencyIndex: 0,
-
+   currencyIndex:localStorage.getItem("currencyIndex") || 0,
  }
 
  changeCurrency = (index) => {
    this.setState({ currencyIndex: index });
+   localStorage.setItem("currencyIndex", index);
  }
-
+ 
  render() {
     return (
       <Provider value={{currencyIndex: this.state.currencyIndex, changeCurrency: this.changeCurrency}}>

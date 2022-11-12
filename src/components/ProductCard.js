@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { CurrencyContextConsumer } from "../context/CurrencyContext";
 import emptyCartIcon from "../assets/empty-cart-white.svg";
 import { CartContextConsumer } from "../context/CartContext";
@@ -17,14 +17,13 @@ class ProductCard extends Component {
     this.setState({ addToCartBadgeVisible: false });
   };
 
-  ani = () => {
+  addedToCartAnimation = () => {
     const cartIcon = document.getElementById("cart-icon");
     cartIcon.classList.add("cart-icon-animation");
     setTimeout(() => {
       cartIcon.classList.remove("cart-icon-animation");
     }, 300);
-
-  }
+  };
 
   render() {
     const { inStock, id, prices, name, gallery, attributes } =
@@ -60,10 +59,10 @@ class ProductCard extends Component {
                       id: id,
                       attributes: defaultAttributesObj,
                     });
-                    this.ani();
+                    this.addedToCartAnimation();
                   }}
                 >
-                  <img id="cart-icon" src={emptyCartIcon} alt="" />{" "}
+                  <img id="cart-icon" src={emptyCartIcon} alt="" />
                 </StyledAddToCartBadge>
               )}
             </CartContextConsumer>
@@ -74,14 +73,13 @@ class ProductCard extends Component {
             alt={name}
           />
         </StyledProductImageContainer>
-        <h1 className="product-name__category"> {name}</h1>
+        <StyledProductNameLabel> {name}</StyledProductNameLabel>
         <CurrencyContextConsumer>
           {({ currencyIndex }) => (
-            <h2 className="product-price__category">
-              {" "}
+            <StyledProductPriceLabel>
               {prices[currencyIndex].currency.symbol}
-              {prices[currencyIndex].amount}{" "}
-            </h2>
+              {prices[currencyIndex].amount}
+            </StyledProductPriceLabel>
           )}
         </CurrencyContextConsumer>
       </StyledProduct>
@@ -89,6 +87,17 @@ class ProductCard extends Component {
   }
 }
 export default withRouter(ProductCard);
+
+const StyledProductPriceLabel = styled.h3`
+  font-weight: 500;
+  font-size: 1.125rem;
+  line-height: 160%;
+`;
+const StyledProductNameLabel = styled.h2`
+  font-weight: 300;
+  font-size: 1.125rem;
+  line-height: 160%;
+`;
 
 const StyledAddToCartBadge = styled.div`
   position: absolute;
@@ -102,13 +111,10 @@ const StyledAddToCartBadge = styled.div`
   bottom: -20px;
   right: 50px;
   transition: all 0.3s ease-in-out;
-  
 
   .cart-icon-animation {
     animation: addToCart 0.3s ease-in-out reverse;
   }
-
-  
 
   &:hover {
     cursor: pointer;
@@ -116,27 +122,22 @@ const StyledAddToCartBadge = styled.div`
     background: #303030;
   }
 
- 
-
   @keyframes addToCart {
     0% {
-        position: absolute;
-        transform: translate(   0px, 0px);
+      position: absolute;
+      transform: translate(0px, 0px);
     }
 
     50% {
-        transform: translate(   0px, -10px);
+      transform: translate(0px, -10px);
     }
 
     100% {
-        position: absolute;
-        transform: translate(   0px, 0px);
-        
+      position: absolute;
+      transform: translate(0px, 0px);
     }
-}
+  }
 `;
-
-
 
 const StyledProductImageContainer = styled.div`
   position: relative;
@@ -161,7 +162,7 @@ const StyledProductImageContainer = styled.div`
 const StyledProduct = styled.div`
   padding: 1em;
   position: relative;
- 
+
   ${(props) =>
     !props.available &&
     `
@@ -176,8 +177,6 @@ const StyledProduct = styled.div`
     object-position: center;
     margin-bottom: 1.5em;
   }
-
-  
 
   &:hover {
     box-shadow: 0px 4px 35px rgba(168, 172, 176, 0.19);

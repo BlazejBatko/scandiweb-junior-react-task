@@ -28,7 +28,6 @@ class ProductDetail extends PureComponent {
   };
 
   render() {
-
     return (
       <section>
         <Query query={PRODUCT_BY_ID(this.id)}>
@@ -57,9 +56,8 @@ class ProductDetail extends PureComponent {
                   </StyledImage>
 
                   <div className="details">
-                    <h1 className="product-brand__detail"> {res.brand}</h1>
-                    <h1 className="product-name__detail"> {res.name}</h1>
-
+                    <StyledProductBrand>{res.brand}</StyledProductBrand>
+                    <StyledProductName>{res.name}</StyledProductName>
                     <CartContextConsumer>
                       {(context) => (
                         <form
@@ -78,15 +76,13 @@ class ProductDetail extends PureComponent {
                           {res.attributes.map((attribute) => {
                             return (
                               <StyledAttributesContainer key={attribute.name}>
-                                <h1 className="product-attribute-title__detail">
-                                  {" "}
-                                  {attribute.name}{" "}
-                                </h1>
-                                <div className="attributes">
+                                <StyledAttributeName>
+                                  {attribute.name}:
+                                </StyledAttributeName>
+                                <StyledAttributeInputsContainer>
                                   {attribute.items.map((item) => {
                                     return (
                                       <div key={item.value}>
-                                        {" "}
                                         {attribute.type !== "swatch" ? (
                                           <InputContainer isSwatch>
                                             <RadioButton
@@ -98,8 +94,7 @@ class ProductDetail extends PureComponent {
                                               name={attribute.name}
                                             />
                                             <RadioButtonLabel isSwatch>
-                                              {" "}
-                                              {item.value}{" "}
+                                              {item.value}
                                             </RadioButtonLabel>
                                           </InputContainer>
                                         ) : (
@@ -113,26 +108,24 @@ class ProductDetail extends PureComponent {
                                             />
                                             <RadioButtonLabel
                                               color={item.displayValue}
-                                            >
-                                              {" "}
-                                            </RadioButtonLabel>
+                                            ></RadioButtonLabel>
                                           </InputContainer>
-                                        )}{" "}
+                                        )}
                                       </div>
                                     );
                                   })}
-                                </div>
+                                </StyledAttributeInputsContainer>
                               </StyledAttributesContainer>
                             );
                           })}
-                          <StyledPriceContainer className="product-attribute-price-title__detail ">
-                            Price:
+                          <StyledPriceContainer>
+                            <StyledPriceLabel>Price:</StyledPriceLabel>
                             <CurrencyContextConsumer>
                               {({ currencyIndex }) => (
-                                <span className="product-price__detail ">
+                                <StyledProductPrice>
                                   {res.prices[currencyIndex].currency.symbol}
                                   {res.prices[currencyIndex].amount}
-                                </span>
+                                </StyledProductPrice>
                               )}
                             </CurrencyContextConsumer>
                           </StyledPriceContainer>
@@ -157,7 +150,7 @@ class ProductDetail extends PureComponent {
                         </form>
                       )}
                     </CartContextConsumer>
-                    <StyledDescription className="product-description__detail">
+                    <StyledDescription>
                       {parse(res.description)}
                     </StyledDescription>
                   </div>
@@ -173,23 +166,56 @@ class ProductDetail extends PureComponent {
 
 export default withRouter(ProductDetail);
 
+const StyledProductBrand = styled.h2`
+  font-weight: 600;
+  font-size: 1.875rem;
+`;
+
+const StyledAttributeInputsContainer = styled.div`
+    display: flex;
+    gap: .5em;
+    flex-wrap: wrap;
+`;
+
+const StyledAttributeName = styled.h4`
+  font-family: "Roboto Condensed";
+  font-weight: 700;
+  font-size: 1.125rem;
+  text-transform: uppercase;
+`;
+const StyledProductPrice = styled.h3`
+  font-weight: 700;
+  font-size: 1.5rem;
+`;
+const StyledProductName = styled.h2`
+  font-weight: 400;
+  font-size: 1.875rem;
+  margin-bottom: 1.5em;
+`;
 const StyledPriceContainer = styled.div`
-  margin-top: 20px;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  margin-top: 2.25em;
+  gap: 1em;
 `;
 const StyledAttributesContainer = styled.div`
-  margin-top: 20px;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.5rem;
+  margin-bottom: 1.5em;
+`;
+
+const StyledPriceLabel = styled.h4`
+  font-family: "Roboto Condensed";
+  font-weight: 700;
+  font-size: 1.125rem;
+  text-transform: uppercase;
 `;
 const InputContainer = styled.div`
   display: flex;
   align-items: center;
   position: relative;
-  padding: 2em 2em;
+  padding: 1.5em 2em;
 
   ${(props) =>
     !props.isSwatch &&
@@ -201,22 +227,22 @@ const InputContainer = styled.div`
 `;
 const RadioButtonLabel = styled.label`
   position: absolute;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
-
+  font-weight: 400;
+  font-family: "Source Sans Pro";
   background: ${(props) => props.color || "white"};
   border: ${(props) =>
-    props.isSwatch
+    props.isSwatch 
       ? "1px solid black"
       : props.color === "White"
       ? "1px solid black"
       : "none"};
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 const RadioButton = styled.input`
   position: absolute;
@@ -226,27 +252,21 @@ const RadioButton = styled.input`
   bottom: 0;
   opacity: 0;
   z-index: 1;
-
   cursor: pointer;
-
-  ${(props) =>
-    props.isSwatch
-      ? `
-
-  &:checked + ${RadioButtonLabel} {
-    background: black;
-    color: white;
-  }
- 
-`
-      : `
-
-  &:checked + ${RadioButtonLabel} {
-    outline: 1px solid #5ECE7B;
-    outline-offset: 1px;
-  }
- 
-`}
+  ${({isSwatch}) => isSwatch ? 
+  
+    `
+    &:checked + ${RadioButtonLabel} {
+      background: black;
+      color: white;
+    }
+    ` : 
+    `
+    &:checked + ${RadioButtonLabel} {
+      outline: 1px solid #5ECE7B;
+      outline-offset: 1px;
+    }
+  `}
 `;
 
 const StyledDescription = styled.div`
@@ -254,9 +274,11 @@ const StyledDescription = styled.div`
   display: flex;
   height: 300px;
   overflow-y: auto;
+  max-width: 300px;
   gap: 20px;
   display: flex;
   flex-direction: column;
+  font-weight: 400;
   ul {
     list-style: none;
   }
@@ -273,21 +295,20 @@ const StyledButtonCTA = styled.button`
   color: #fff;
   font-size: 1rem;
   padding: 1em 2em;
-  width: 200px;
-
+  width: 292px;
   margin-top: 1.25em;
 
   ${({ children }) => {
-   switch (children) {
-    case "out of stock":
-      return 'background: #e0e0e0; cursor: not-allowed;';
-    case "in cart":
-      return 'background: #303030;';
-    default:
-      return 'background: #5ece7b; cursor: pointer;';
-   }
+    switch (children) {
+      case "out of stock":
+        return "background: #e0e0e0; cursor: not-allowed;";
+      case "in cart":
+        return "background: #303030;";
+      default:
+        return "background: #5ece7b; cursor: pointer;";
+    }
   }}
-`
+`;
 const StyledImage = styled.div`
   flex: 3 1 auto;
   display: flex;
@@ -303,11 +324,6 @@ const StyledImage = styled.div`
   }
 `;
 const StyledProductDetails = styled.div`
-  .attributes {
-    display: flex;
-    gap: 1em;
-    flex-wrap: wrap;
-  }
   display: flex;
   align-items: start;
   gap: 1em;

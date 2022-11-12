@@ -7,7 +7,6 @@ export const LOAD_CATEGORIES = gql`
       }
   }
 `
-
 export const GET_AVAILABLE_PRICES = gql`
 query {
   currencies {
@@ -16,7 +15,6 @@ query {
   }
 }
 `
-
 export const PRODUCTS_FROM_CATEGORY = (productsCategory) => gql`
 query{
   category(input: {title: "${productsCategory}"}) {
@@ -44,7 +42,6 @@ query{
   }
 }
 `
-
 export const PRODUCT_BY_ID = (productId) => gql`
 query{
   product(id: "${productId}") {

@@ -8,7 +8,7 @@ import {
 import { PureComponent } from "react";
 import { onError } from "@apollo/client/link/error";
 import GetCategories from "./components/Navbar";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import ProductListingPage from "./components/ProductListingPage";
 import ProductDetail from "./components/ProductDetail";
 import CartPage from "./pages/CartPage";
@@ -39,6 +39,9 @@ class App extends PureComponent {
         <GetCategories />
         <div id="app-wrapper">
         <Switch>
+          <Route exact path="/">
+            <Redirect to="/all"/>
+          </Route>
           <Route path="/tech">
             <ProductListingPage category={"tech"} />
           </Route>
@@ -54,7 +57,6 @@ class App extends PureComponent {
           <Route path="/:productId">
             <ProductDetail />
           </Route>
-          
         </Switch>
         </div>
       </ApolloProvider>

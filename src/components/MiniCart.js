@@ -4,23 +4,51 @@ import styled from "styled-components";
 import { CartContextConsumer } from "../context/CartContext";
 import { CurrencyContextConsumer } from "../context/CurrencyContext";
 import CartProductCard from "./CartProductCard";
-import { Link } from "react-router-dom";
-export default class MiniCart extends Component {
+import { withRouter } from "react-router-dom";
+
+class MiniCart extends Component {
   state = {
-    overlayOpen: false,
+    isOverlayOpen: false,
   };
 
   toggleOverlay = () => {
-    this.setState({ overlayOpen: !this.state.overlayOpen });
-    document.querySelector("#app-wrapper").classList.toggle("overlay-open");
+    this.setState({ isOverlayOpen: !this.state.isOverlayOpen });
   };
+
+  goToCartPage = () => {
+    this.props.history.push("/cart");
+    this.toggleOverlay();
+  };
+
+  componentDidUpdate() {
+    if (this.state.isOverlayOpen) {
+      document.body.style.overflowY = "hidden";
+    } else {
+      document.body.style.overflowY = "unset";
+    }
+  }
+
+  handleClickOutside = (event) => {
+    if (!event.target.closest(".mini-cart") || event.target.matches(".overlay")) {
+      this.setState({ isOverlayOpen: false });
+      
+    }
+  };
+
+  componentDidMount() {
+    document.addEventListener("mousedown", this.handleClickOutside);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("mousedown", this.handleClickOutside);
+  }
 
   render() {
     return (
-      <StyledMiniCart className="mini-cart">
+      <StyledMiniCart >
         <CartContextConsumer>
           {({ cart, getTotalItemsQuantity, getTotalPrice }) => (
-            <>
+            <div className="mini-cart">
               <StyledCartIconContainer
                 length={getTotalItemsQuantity}
                 className="cart-icon"
@@ -28,53 +56,54 @@ export default class MiniCart extends Component {
               >
                 <img src={emptyCartIcon} alt="emptycart" />
               </StyledCartIconContainer>
-
-              {this.state.overlayOpen && (
+              {this.state.isOverlayOpen && (
                 <>
                   <StyledOverlay className="overlay"></StyledOverlay>
                   {cart.length > 0 ? (
-                    <StyledOverlayContent className="overlay-content">
-                      <div className="overlay-header">
-                        <span className="my-bag-label-text__cart ">
-                          My Bag, 
-                          <span className="my-bag-items-count__cart">
-                            {cart.length} {cart.length > 1 ? "items" : "item"}
-                          </span>
-                        </span>
-                      </div>
+                    <StyledOverlayContent >
+                      <StyledOverlayHeader>
+                        <StyledOverlayHeading>
+                          My Bag,{" "}
+                          <StyledOverlayHeadingItemsValue>
+                            {getTotalItemsQuantity}{" "}
+                            {getTotalItemsQuantity > 1 ? "items" : "item"}
+                          </StyledOverlayHeadingItemsValue>
+                        </StyledOverlayHeading>
+                      </StyledOverlayHeader>
                       <StyledCartProductsContainer>
                         {cart.map((product, index) => (
                           <CartProductCard
                             key={index}
                             product={product}
                             index={index}
-                            {...this.props}
+                            cart={cart}
                           />
                         ))}
                       </StyledCartProductsContainer>
-                      <StyledOverlayFooter className="overlay-footer">
+                      <StyledOverlayFooter>
                         <StyledTotalPriceContainer>
-                          <span className="product-total-price-label__cart ">
+                          <StyledTotalPriceText>
                             Total Price
-                          </span>
+                          </StyledTotalPriceText>
                           <CurrencyContextConsumer>
                             {({ currencyIndex }) => (
-                              <span className="product-total-price-value__cart">
+                              <StyledTotalPriceValue>
                                 {getTotalPrice(currencyIndex)}
-                              </span>
+                              </StyledTotalPriceValue>
                             )}
                           </CurrencyContextConsumer>
                         </StyledTotalPriceContainer>
-                        <div>
-                          <Link to="/cart" onClick={this.toggleOverlay}>
-                            <StyledOverlayFooterCTA>
-                              view bag
-                            </StyledOverlayFooterCTA>
-                          </Link>
+                        <StyledButtonsContainer>
+                          <StyledOverlayFooterCTA
+                            onClick={() => this.goToCartPage()}
+                          >
+                            view bag
+                          </StyledOverlayFooterCTA>
+
                           <StyledOverlayFooterCTA checkout>
                             checkout
                           </StyledOverlayFooterCTA>
-                        </div>
+                        </StyledButtonsContainer>
                       </StyledOverlayFooter>
                     </StyledOverlayContent>
                   ) : (
@@ -85,7 +114,7 @@ export default class MiniCart extends Component {
                   )}
                 </>
               )}
-            </>
+            </div>
           )}
         </CartContextConsumer>
       </StyledMiniCart>
@@ -93,11 +122,38 @@ export default class MiniCart extends Component {
   }
 }
 
+export default withRouter(MiniCart);
+
+const StyledTotalPriceText = styled.h3`
+  font-family: "Roboto";
+  font-weight: 500;
+  font-size: 1rem;
+`;
+const StyledButtonsContainer = styled.div`
+  display: flex;
+  gap: 0.75em;
+  width: 100%;
+`;
+const StyledTotalPriceValue = styled.span`
+  font-weight: 700;
+`;
+const StyledOverlayHeading = styled.h2`
+  font-weight: 700;
+  font-size: 1rem;
+`;
+const StyledOverlayHeadingItemsValue = styled.span`
+  font-weight: 500;
+  font-size: 1rem;
+`;
+
+const StyledOverlayHeader = styled.div`
+  margin-bottom: 1em;
+`;
+
 const StyledTotalPriceContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 2em 0;
 `;
 const StyledCartIconContainer = styled.div`
   position: relative;
@@ -130,15 +186,21 @@ const StyledCartIconContainer = styled.div`
   }
 `;
 
-
 const StyledOverlayFooterCTA = styled.button`
   cursor: pointer;
   text-transform: uppercase;
-  font-size: 1.2rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: "Raleway", sans-serif;
   border: 1px solid black;
-  padding: 0.5em 0.5em;
+  padding: 0.7em;
   width: 50%;
+  background: white;
 
+  a {
+    color: black;
+    font-family: "Raleway", sans-serif;
+  }
   ${(props) =>
     props.checkout ? "color: white; background: #5ECE7B; border: none;" : ""};
 `;
@@ -147,7 +209,8 @@ const StyledOverlayFooter = styled.div`
   display: flex;
   justify-content: space-evenly;
   flex-direction: column;
-  gap: 0.25em;
+  row-gap: 2.125em;
+  margin-top: 1em;
 `;
 
 const StyledMiniCart = styled.div`
@@ -178,20 +241,23 @@ const StyledOverlayContentEmpty = styled(StyledOverlayContent)`
   align-items: center;
   justify-content: center;
   gap: 1em;
+  width: max-content;
 `;
 
 const StyledCartProductsContainer = styled.div`
   height: 400px;
   overflow-y: auto;
-  
+  padding-right: 8px;
   &::-webkit-scrollbar {
     width: 0.5em;
+    
   }
   &::-webkit-scrollbar-track {
     background: #f1f1f1;
   }
   &::-webkit-scrollbar-thumb {
     background: #888;
+
   }
   &::-webkit-scrollbar-thumb:hover {
     background: #555;
