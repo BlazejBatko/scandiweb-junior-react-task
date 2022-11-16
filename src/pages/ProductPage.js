@@ -6,9 +6,8 @@ import styled from "styled-components";
 import parse from "html-react-parser";
 import { CurrencyContextConsumer } from "../context/CurrencyContext";
 import { CartContextConsumer } from "../context/CartContext";
-class ProductDetail extends PureComponent {
+class ProductPage extends PureComponent {
   id = this.props.match.params.productId;
-
   ctaBtn = React.createRef();
   state = {
     currentPhotoIndex: 0,
@@ -22,10 +21,10 @@ class ProductDetail extends PureComponent {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  handleFormSubmit = (e, fn) => {
+  handleFormSubmit = (e) => {
     e.preventDefault();
-    fn();
-  };
+    
+  }
 
   render() {
     return (
@@ -36,26 +35,27 @@ class ProductDetail extends PureComponent {
             if (data) {
               const res = data.product;
               return (
-                <StyledProductDetails>
-                  <div className="gallery">
+                <StyledProductPageWrapper>
+
+                  <StyledThumbnailsContainer className="gallery">
                     {res.gallery.map((image, index) => (
                       <img
                         onClick={() => this.handleClick(index)}
                         src={image}
-                        alt=""
+                        alt={`gallery thumbnail ${index}`}
                         key={image}
                       />
                     ))}
-                  </div>
+                  </StyledThumbnailsContainer>
 
-                  <StyledImage>
+                  <StyledProductImageContainer>
                     <img
                       src={res.gallery[this.state.currentPhotoIndex]}
-                      alt=""
+                      alt={`product photography representing ${res.brand} ${res.name}`}
                     />
-                  </StyledImage>
+                  </StyledProductImageContainer>
 
-                  <div className="details">
+                  <StyledProductDetails className="details">
                     <StyledProductBrand>{res.brand}</StyledProductBrand>
                     <StyledProductName>{res.name}</StyledProductName>
                     <CartContextConsumer>
@@ -82,13 +82,13 @@ class ProductDetail extends PureComponent {
                                 <StyledAttributeInputsContainer>
                                   {attribute.items.map((item) => {
                                     return (
-                                      <div key={item.value}>
+                                      <div key={item.value}> 
                                         {attribute.type !== "swatch" ? (
                                           <InputContainer isSwatch>
                                             <RadioButton
                                               onChange={this.handleFormChange}
-                                              type="radio"
                                               required
+                                              type="radio"
                                               isSwatch
                                               value={item.displayValue}
                                               name={attribute.name}
@@ -100,8 +100,8 @@ class ProductDetail extends PureComponent {
                                         ) : (
                                           <InputContainer>
                                             <RadioButton
-                                              required
                                               onChange={this.handleFormChange}
+                                              required
                                               type="radio"
                                               value={item.displayValue}
                                               name={attribute.name}
@@ -111,7 +111,7 @@ class ProductDetail extends PureComponent {
                                             ></RadioButtonLabel>
                                           </InputContainer>
                                         )}
-                                      </div>
+                                     </div>
                                     );
                                   })}
                                 </StyledAttributeInputsContainer>
@@ -153,8 +153,9 @@ class ProductDetail extends PureComponent {
                     <StyledDescription>
                       {parse(res.description)}
                     </StyledDescription>
-                  </div>
-                </StyledProductDetails>
+                  </StyledProductDetails>
+
+                </StyledProductPageWrapper>
               );
             }
           }}
@@ -164,7 +165,7 @@ class ProductDetail extends PureComponent {
   }
 }
 
-export default withRouter(ProductDetail);
+export default withRouter(ProductPage);
 
 const StyledProductBrand = styled.h2`
   font-weight: 600;
@@ -309,45 +310,47 @@ const StyledButtonCTA = styled.button`
     }
   }}
 `;
-const StyledImage = styled.div`
-  flex: 3 1 auto;
+const StyledProductImageContainer = styled.div`
+  flex: 3;
   display: flex;
   justify-content: center;
   align-items: flex-start;
   img {
     min-width: 200px;
-    max-height: 80vh;
+    max-height: 600px;
+    max-width: 100%;
     object-fit: contain;
     object-position: center;
-    aspect-ratio: 1/1;
-    justify-self: center;
+    
   }
 `;
-const StyledProductDetails = styled.div`
+const StyledProductPageWrapper = styled.div`
   display: flex;
   align-items: start;
   gap: 1em;
-  .gallery {
-    min-width: 100px;
-    max-width: 150px;
-    flex: 1 2 auto;
-    display: flex;
-    flex-direction: column;
-    height: 500px;
-    overflow-y: auto;
-    gap: 2.5em;
-  }
-  .details {
-    display: flex;
+`;
+
+const StyledProductDetails = styled.div`
+ display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     flex: 1 2 auto;
     max-width: 400px;
-  }
+`
 
-  .gallery img {
+const StyledThumbnailsContainer = styled.div`
+  min-width: 100px;
+  max-width: 150px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 500px;
+  overflow-y: auto;
+  gap: 2.5em;
+
+  img {
     object-fit: cover;
     padding: 1em;
     cursor: pointer;
   }
-`;
+`

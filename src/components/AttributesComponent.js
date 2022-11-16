@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import styled from "styled-components";
-export default class AttributesComponent extends Component {
+export default class AttributesComponent extends PureComponent {
   render() {
     const { attribute, product, isOnCartPage } = this.props;
     return (
@@ -16,7 +16,7 @@ export default class AttributesComponent extends Component {
                     Object.values(product.attributes)[
                       Object.keys(product.attributes).indexOf(attribute.name)
                     ] === item.displayValue
-                      ? "active-swatch"
+                      ? "selected-swatch"
                       : ""
                   }
                 >
@@ -33,7 +33,7 @@ export default class AttributesComponent extends Component {
                     Object.values(product.attributes)[
                       Object.keys(product.attributes).indexOf(attribute.name)
                     ] === item.displayValue
-                      ? "active"
+                      ? "selected"
                       : ""
                   }
                   color={item.value}
@@ -86,11 +86,11 @@ const StyledAttributesWrapper = styled.div`
   flex-direction: column;
   gap: 0.5em;
 
-  .active-swatch {
+  .selected-swatch {
     background: #1D1F22;
     color: white;
   }
-  .active {
+  .selected {
     outline: 1px solid #5ece7b;
     outline-offset: 1px;
   }

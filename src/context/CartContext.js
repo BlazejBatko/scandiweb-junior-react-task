@@ -7,17 +7,13 @@ class CartContextProvider extends Component {
     cart: localStorage.getItem("cart") ? (JSON.parse(localStorage.getItem("cart"))).cart : [],
   };
 
-
-  getTotalItemsQuantity = () => {
+  getTotalInCartItemsQuantity = () => {
     let sum = 0;
     this.state.cart.forEach((item) => {
       sum += item.quantity;
     });
     return sum;
   }
-
-
-
 
   isItemInCart = (id, attributes) => {
     if (this.state.cart.find(element => (JSON.stringify(element.attributes) === JSON.stringify(attributes.attributes) && element.id === id))) {
@@ -84,7 +80,7 @@ class CartContextProvider extends Component {
           removeFromCart: this.removeFromCart,
           isItemInCart: this.isItemInCart,
           changeProductQuantity: this.changeProductQuantity,
-          getTotalItemsQuantity: this.getTotalItemsQuantity(),
+          getTotalInCartItemsQuantity: this.getTotalInCartItemsQuantity(),
           getTotalPrice: this.getTotalPrice,
         }}
       >

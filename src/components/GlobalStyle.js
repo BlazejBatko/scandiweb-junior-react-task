@@ -12,6 +12,7 @@ const GlobalStyle = createGlobalStyle`
         overflow-x: hidden;
         
     }
+    //Prevent layout shift on modal open (hidden scrollbar)
     html {
         margin-right: calc(-1 * (100vw - 100%));
         
@@ -27,11 +28,5 @@ const GlobalStyle = createGlobalStyle`
         max-width: 100%;
         display: block;
     }
-
-    
-
-    
-   
-
 `
 export default GlobalStyle

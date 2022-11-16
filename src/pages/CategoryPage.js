@@ -2,8 +2,8 @@ import { PRODUCTS_FROM_CATEGORY } from "../GraphQL/Queries";
 import { Query } from "@apollo/client/react/components";
 import React, { PureComponent } from "react";
 import styled from "styled-components";
-import ProductCard from "./ProductCard";
-class ProductListingPage extends PureComponent {
+import ProductCard from "../components/ProductCard";
+class CategoryPage extends PureComponent {
   render() {
     return (
       <main>
@@ -14,9 +14,7 @@ class ProductListingPage extends PureComponent {
               if (loading) return <div>Loading</div>;
               if (error) return <div>something went wrong :(</div>;
               return data.category.products.map((product) => {
-                return (
-                    <ProductCard key={product.id} product={product} />
-                );
+                return <ProductCard key={product.id} product={product} />;
               });
             }}
           </Query>
@@ -26,7 +24,7 @@ class ProductListingPage extends PureComponent {
   }
 }
 
-export default ProductListingPage;
+export default CategoryPage;
 
 const StyledHeading = styled.h1`
   margin-top: 2em;
@@ -44,5 +42,4 @@ const StyledProductsGrid = styled.div`
   display: grid;
   gap: 3.5em;
   grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-
 `;

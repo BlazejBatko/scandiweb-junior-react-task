@@ -9,8 +9,8 @@ import { PureComponent } from "react";
 import { onError } from "@apollo/client/link/error";
 import GetCategories from "./components/Navbar";
 import { Switch, Route, Redirect } from "react-router-dom";
-import ProductListingPage from "./components/ProductListingPage";
-import ProductDetail from "./components/ProductDetail";
+import ProductListingPage from "./pages/CategoryPage";
+import ProductDetail from "./pages/ProductPage";
 import CartPage from "./pages/CartPage";
 const errorLink = onError(({ graphqlErrors, networkErorr }) => {
   if (graphqlErrors) {

@@ -1,10 +1,10 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import styled from "styled-components";
 import { CurrencyContextConsumer } from "../context/CurrencyContext";
-import emptyCartIcon from "../assets/empty-cart-white.svg";
 import { CartContextConsumer } from "../context/CartContext";
 import { withRouter } from "react-router-dom";
-class ProductCard extends Component {
+import emptyCartIcon from "../assets/empty-cart-white.svg";
+class ProductCard extends PureComponent {
   state = {
     addToCartBadgeVisible: false,
   };
@@ -67,11 +67,7 @@ class ProductCard extends Component {
               )}
             </CartContextConsumer>
           )}
-          <img
-            className="product-cover__category"
-            src={gallery[0]}
-            alt={name}
-          />
+          <StyledProductCoverImage src={gallery[0]} alt={name} />
         </StyledProductImageContainer>
         <StyledProductNameLabel> {name}</StyledProductNameLabel>
         <CurrencyContextConsumer>
@@ -151,7 +147,6 @@ const StyledProductImageContainer = styled.div`
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      font-family: 'Raleway', sans-serif;
       font-weight: 400;
       font-size: 1.5em;
       text-transform: uppercase;
@@ -163,22 +158,17 @@ const StyledProduct = styled.div`
   padding: 1em;
   position: relative;
 
-  ${(props) =>
-    !props.available &&
-    `
-  opacity: 0.5;
-  
-`}
-
-  .product-cover__category {
-    width: 100%;
-    height: 500px;
-    object-fit: contain;
-    object-position: center;
-    margin-bottom: 1.5em;
-  }
+  ${({ available }) => !available && ` opacity: 0.5;`}
 
   &:hover {
     box-shadow: 0px 4px 35px rgba(168, 172, 176, 0.19);
   }
+`;
+
+const StyledProductCoverImage = styled.img`
+  width: 100%;
+  height: 500px;
+  object-fit: contain;
+  object-position: center;
+  margin-bottom: 1.5em;
 `;

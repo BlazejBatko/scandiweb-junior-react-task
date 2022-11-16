@@ -1,13 +1,12 @@
 import React, { PureComponent } from "react";
+import styled from "styled-components";
+import MiniCart from "./MiniCart";
+import DropDown from "./CurrencyDropDown";
 import { Link } from "react-router-dom";
 import { LOAD_CATEGORIES, GET_AVAILABLE_PRICES } from "../GraphQL/Queries";
-import styled from "styled-components";
-import logoIcon from "../assets/a-logo.svg";
-
 import { Query } from "@apollo/client/react/components";
-import DropDown from "./Dropdown";
 import { withRouter } from "react-router-dom";
-import MiniCart from "./MiniCart";
+import logoIcon from "../assets/a-logo.svg";
 
 class Navbar extends PureComponent {
   render() {
@@ -106,5 +105,6 @@ const StyledNavbar = styled.ul`
 
   a {
     text-decoration: none;
+    color: #1D1F22;
   }
 `;

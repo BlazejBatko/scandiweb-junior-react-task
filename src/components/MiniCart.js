@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import emptyCartIcon from "../assets/empty-cart.svg";
 import styled from "styled-components";
 import { CartContextConsumer } from "../context/CartContext";
@@ -6,7 +6,7 @@ import { CurrencyContextConsumer } from "../context/CurrencyContext";
 import CartProductCard from "./CartProductCard";
 import { withRouter } from "react-router-dom";
 
-class MiniCart extends Component {
+class MiniCart extends PureComponent {
   state = {
     isOverlayOpen: false,
   };
@@ -47,10 +47,10 @@ class MiniCart extends Component {
     return (
       <StyledMiniCart >
         <CartContextConsumer>
-          {({ cart, getTotalItemsQuantity, getTotalPrice }) => (
+          {({ cart, getTotalInCartItemsQuantity, getTotalPrice }) => (
             <div className="mini-cart">
               <StyledCartIconContainer
-                length={getTotalItemsQuantity}
+                length={getTotalInCartItemsQuantity}
                 className="cart-icon"
                 onClick={this.toggleOverlay}
               >
@@ -65,8 +65,8 @@ class MiniCart extends Component {
                         <StyledOverlayHeading>
                           My Bag,{" "}
                           <StyledOverlayHeadingItemsValue>
-                            {getTotalItemsQuantity}{" "}
-                            {getTotalItemsQuantity > 1 ? "items" : "item"}
+                            {getTotalInCartItemsQuantity}{" "}
+                            {getTotalInCartItemsQuantity > 1 ? "items" : "item"}
                           </StyledOverlayHeadingItemsValue>
                         </StyledOverlayHeading>
                       </StyledOverlayHeader>
