@@ -20,16 +20,18 @@ class Navbar extends PureComponent {
               {({ loading, data, error }) => {
                 if (loading) return <div>Loading</div>;
                 if (error) return <div>something went wrong :(</div>;
-                return data.categories.map((category) => (
-                  <Link key={category.name} to={category.name}>
-                    <StyledLi
-                      active={category.name === location}
-                      key={category.name}
-                    >
-                      {category.name}
-                    </StyledLi>
-                  </Link>
-                ));
+                if (data.categories) {
+                  return data.categories.map((category) => (
+                    <Link key={category.name} to={category.name}>
+                      <StyledLi
+                        active={category.name === location}
+                        key={category.name}
+                      >
+                        {category.name}
+                      </StyledLi>
+                    </Link>
+                  ));
+                }
               }}
             </Query>
           </StyledNavbarItemsContainer>
@@ -105,6 +107,6 @@ const StyledNavbar = styled.ul`
 
   a {
     text-decoration: none;
-    color: #1D1F22;
+    color: #1d1f22;
   }
 `;

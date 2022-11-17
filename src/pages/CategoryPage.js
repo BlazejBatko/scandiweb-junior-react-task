@@ -3,6 +3,7 @@ import { Query } from "@apollo/client/react/components";
 import React, { PureComponent } from "react";
 import styled from "styled-components";
 import ProductCard from "../components/ProductCard";
+import ErrorPage from "./NotFoundPage";
 class CategoryPage extends PureComponent {
   render() {
     return (
@@ -13,9 +14,13 @@ class CategoryPage extends PureComponent {
             {({ loading, data, error }) => {
               if (loading) return <div>Loading</div>;
               if (error) return <div>something went wrong :(</div>;
-              return data.category.products.map((product) => {
-                return <ProductCard key={product.id} product={product} />;
-              });
+              if (data.category.products) {
+                return data.category.products.map((product) => {
+                  return <ProductCard key={product.id} product={product} />;
+                });
+              }
+
+              // return <ErrorPage />
             }}
           </Query>
         </StyledProductsGrid>
