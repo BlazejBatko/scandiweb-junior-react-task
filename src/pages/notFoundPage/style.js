@@ -1,29 +1,4 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
-export default class ErrorPage extends Component {
-  render() {
-    return (
-      <StyledErrorPageWrapper>
-     
-
-        <span> : ( </span>
-
-        
-
-        <StyledErrorMessage>
-
-          <h1>4 0 4</h1>
-          <p> The page you are looking for can’t be found.  </p>
-          <Link to={"/"}>
-            <StyledCTA> go to home </StyledCTA>
-          </Link>
-
-        </StyledErrorMessage>
-      </StyledErrorPageWrapper>
-    );
-  }
-}
 
 const StyledCTA = styled.button`
   cursor: pointer;
@@ -37,17 +12,14 @@ const StyledCTA = styled.button`
 
   &:hover {
     background: #429c5a;
-
   }
-
 `;
 
 const StyledErrorMessage = styled.div`
-gap: 1em;
-display: flex;
-flex-direction: column;
-
-`
+  gap: 1em;
+  display: flex;
+  flex-direction: column;
+`;
 const StyledErrorPageWrapper = styled.div`
   position: fixed;
   background: white;
@@ -71,7 +43,6 @@ const StyledErrorPageWrapper = styled.div`
 
   p {
     font-family: "Roboto", sans-serif;
-
   }
   span {
     font-family: "Roboto", sans-serif;
@@ -80,3 +51,5 @@ const StyledErrorPageWrapper = styled.div`
     font-weight: 800;
   }
 `;
+
+export { StyledCTA, StyledErrorMessage, StyledErrorPageWrapper };

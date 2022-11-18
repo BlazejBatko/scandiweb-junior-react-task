@@ -20,6 +20,7 @@ query{
   category(input: {title: "${productsCategory}"}) {
       products {
       name
+      category
       brand
       id
       gallery

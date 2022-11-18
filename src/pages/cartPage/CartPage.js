@@ -1,13 +1,18 @@
 import React, { Component } from "react";
-import CartProductCard from "../components/CartProductCard";
-import { CartContextConsumer } from "../context/CartContext";
-import CartFooter from "../components/CartFooter";
-import styled from "styled-components";
+import CartProductCard from "../../components/product/productCardCart/CartProductCard";
+import { CartContextConsumer } from "../../context/CartContext";
+import CartFooter from "../../components/cartFooter/CartFooter";
 import { Link } from "react-router-dom";
+import {
+  StyledEmptyCartContainer,
+  StyledHeadline,
+  StyledShopNowBtn,
+} from "./style";
+
 export default class CartPage extends Component {
   render() {
     return (
-      <section>
+      <>
         <StyledHeadline>Cart</StyledHeadline>
         <CartContextConsumer>
           {({ cart, getTotalInCartItemsQuantity, getTotalPrice }) => (
@@ -28,11 +33,10 @@ export default class CartPage extends Component {
                     quantity={getTotalInCartItemsQuantity}
                     total={getTotalPrice}
                   />
-
                 </>
               ) : (
                 <StyledEmptyCartContainer>
-                  <span>  Your cart is empty &nbsp; (´。＿。｀)</span>
+                  <span> Your cart is empty &nbsp; (´。＿。｀)</span>
                   <Link to="/">
                     <StyledShopNowBtn> Shop now </StyledShopNowBtn>
                   </Link>
@@ -41,41 +45,7 @@ export default class CartPage extends Component {
             </>
           )}
         </CartContextConsumer>
-      </section>
+      </>
     );
   }
 }
-
-const StyledShopNowBtn = styled.button`
-   
-  text-transform: uppercase;
-  color: #fff;
-  font-size: 1.5rem;
-  background: #5ece7b;
-  padding: .8em 2em;
-  border: none;
-  transition: all 0.3s ease-in-out;
-  
-  &:hover, &:active, &:focus {
-    background: #429c5a;
-    cursor: pointer;
-  }
- 
-`;
-
-const StyledEmptyCartContainer = styled.div`
-  margin-top: 40px;
-  font-size: 2rem;
-  gap: 1.5em;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-`;
-
-const StyledHeadline = styled.h1`
-  border-bottom: 1px solid #e5e5e5;
-  font-size: 2rem;
-  padding-bottom: 2em;
-  font-weight: 700;
-  text-transform: uppercase;
-`;

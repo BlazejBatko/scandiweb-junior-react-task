@@ -16,8 +16,11 @@ const GlobalStyle = createGlobalStyle`
     html {
         margin-right: calc(-1 * (100vw - 100%));
         
+        @media (max-width: 768px) {
+            font-size: 80%;
+        }
     }
-    nav,
+    header,
     section,
     main {
         width: 90%;

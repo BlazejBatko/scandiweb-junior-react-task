@@ -39,12 +39,12 @@ class CartContextProvider extends Component {
     }
   };
 
-  getTotalPrice = (indexOfselectedCurrency) => {
+  getTotalPrice = (selectedCurrencyIndex) => {
     let sum = 0;
     let symbol = "";
       this.state.cart.forEach((item) => {
-      sum += item.data.product.prices[indexOfselectedCurrency || 0].amount * item.quantity;
-      symbol = item.data.product.prices[indexOfselectedCurrency || 0].currency.symbol;
+      sum += item.data.product.prices[selectedCurrencyIndex || 0].amount * item.quantity;
+      symbol = item.data.product.prices[selectedCurrencyIndex || 0].currency.symbol;
     });
     return sum.toFixed(2) + " " + symbol;
   };

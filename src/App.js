@@ -7,12 +7,13 @@ import {
 } from "@apollo/client";
 import { PureComponent } from "react";
 import { onError } from "@apollo/client/link/error";
-import GetCategories from "./components/Navbar";
+import Navbar from "./components/nav/Navbar";
 import { Switch, Route, Redirect } from "react-router-dom";
-import ProductListingPage from "./pages/CategoryPage";
-import ProductDetail from "./pages/ProductPage";
-import CartPage from "./pages/CartPage";
-import ErrorPage from "./pages/NotFoundPage";
+import ProductListingPage from "./pages/categoryPage/CategoryPage";
+import ProductPage from "./pages/productPage/ProductPage";
+import CartPage from "./pages/cartPage/CartPage";
+import NotFoundPage from "./pages/notFoundPage/NotFoundPage";
+
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)
@@ -35,30 +36,26 @@ class App extends PureComponent {
   render() {
     return (
       <ApolloProvider client={client}>
-        <GetCategories />
-        <div id="app-wrapper">
+        <Navbar />
+        <main id="app-wrapper">
           <Switch>
             <Route exact path="/">
               <Redirect to="/all" />
             </Route>
-            <Route path="/tech">
-              <ProductListingPage category={"tech"} />
-            </Route>
-            <Route path="/clothes">
-              <ProductListingPage category={"clothes"} />
-            </Route>
-            <Route path="/all">
-              <ProductListingPage category={"all"} />
-            </Route>
-            <Route path="/cart">
+            <Route exact path="/cart">
               <CartPage />
             </Route>
-            <Route path="/:productId">
-              <ProductDetail />
+            <Route path="/:category/:productId">
+              <ProductPage />
             </Route>
-            <Route component={ErrorPage} />
+            <Route path="/:category">
+              <ProductListingPage/>
+            </Route>
+            <Route path="*">
+              <NotFoundPage />
+            </Route>
           </Switch>
-        </div>
+        </main>
       </ApolloProvider>
     );
   }

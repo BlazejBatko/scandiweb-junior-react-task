@@ -1,22 +1,28 @@
-import styled from "styled-components";
 import { PureComponent } from "react";
-import dropdownIconDown from "../assets/dropdown-btn-down.svg";
-import dropdownIconUp from "../assets/dropdown-btn-up.svg";
-import { CurrencyContextConsumer } from "../context/CurrencyContext";
-class DropDown extends PureComponent {
+import dropdownIconDown from "../../assets/dropdown-btn-down.svg";
+import dropdownIconUp from "../../assets/dropdown-btn-up.svg";
+import { CurrencyContextConsumer } from "../../context/CurrencyContext";
+import {
+  StyledDropDownContainer,
+  StyledDropDownCurrencyOption,
+  StyledDropDownToggler,
+  StyledDropDownWrapper,
+} from "./style";
+
+export default class DropDown extends PureComponent {
   state = {
     isOptionOpen: false,
     selectedCurrency: localStorage.getItem("currencyIndex") || 0,
     currencies: this.props.prices,
   };
 
-  toggleOption = () => {
+  toggleOverlayVisibility = () => {
     this.setState({ isOptionOpen: !this.state.isOptionOpen });
   };
 
   changeCurrency = (index) => {
     this.setState({ selectedCurrency: index });
-    this.toggleOption();
+    this.toggleOverlayVisibility();
   };
 
   handleClickOutside = (event) => {
@@ -38,7 +44,7 @@ class DropDown extends PureComponent {
       <CurrencyContextConsumer>
         {(context) => (
           <StyledDropDownWrapper className="drop-down">
-            <StyledDropDownToggler onClick={this.toggleOption}>
+            <StyledDropDownToggler onClick={this.toggleOverlayVisibility}>
               {this.state.currencies[this.state.selectedCurrency].symbol}
               {this.state.isOptionOpen ? (
                 <img
@@ -76,41 +82,3 @@ class DropDown extends PureComponent {
     );
   }
 }
-
-export default DropDown;
-
-const StyledDropDownContainer = styled.div`
-  position: absolute;
-  left: -20px;
-  width: 114px;
-  background: #fff;
-  padding: 4px 0;
-  margin-top: 10px;
-  box-shadow: 0px 4px 35px rgba(168, 172, 176, 0.19);
-`;
-
-const StyledDropDownCurrencyOption = styled.div`
-  padding: 13px 0 13px 20px;
-  cursor: pointer;
-  display: flex;
-  width: 100%;
-  font-size: 1.125rem;
-  font-weight: 500;
-  &:hover {
-    background: #eee;
-  }
-`;
-
-const StyledDropDownToggler = styled.div`
-  font-weight: bold;
-  color: #333;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-  gap: 10px;
-`;
-const StyledDropDownWrapper = styled.div`
-  z-index: 5;
-  position: relative;
-`;
