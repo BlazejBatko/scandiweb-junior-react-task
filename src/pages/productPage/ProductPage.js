@@ -13,6 +13,7 @@ import {
   StyledProductName,
   StyledProductPageWrapper,
   StyledThumbnailsContainer,
+  StyledProductGalleryContainer,
 } from "./style";
 
 class ProductPage extends PureComponent {
@@ -32,7 +33,7 @@ class ProductPage extends PureComponent {
   };
 
   render() {
-    console.log(this.props.match)
+   
     return (
       <Query query={PRODUCT_BY_ID(this.id)}>
         {({ loading, data, error }) => {
@@ -42,24 +43,26 @@ class ProductPage extends PureComponent {
             const productObj = data.product;
             return (
               <StyledProductPageWrapper>
-                <StyledThumbnailsContainer>
-                  {productObj.gallery.map((image, index) => (
+
+                <StyledProductGalleryContainer> 
+                  <StyledThumbnailsContainer>
+                    {productObj.gallery.map((image, index) => (
+                      <img
+                        onClick={() => this.handleClick(index)}
+                        src={image}
+                        alt={`gallery thumbnail ${index}`}
+                        key={image}
+                      />
+                    ))}
+                  </StyledThumbnailsContainer>
+
+                  <StyledProductImageContainer>
                     <img
-                      onClick={() => this.handleClick(index)}
-                      src={image}
-                      alt={`gallery thumbnail ${index}`}
-                      key={image}
+                      src={productObj.gallery[this.state.currentPhotoIndex]}
+                      alt={`product photography representing ${productObj.brand} ${productObj.name}`}
                     />
-                  ))}
-                </StyledThumbnailsContainer>
-
-                <StyledProductImageContainer>
-                  <img
-                    src={productObj.gallery[this.state.currentPhotoIndex]}
-                    alt={`product photography representing ${productObj.brand} ${productObj.name}`}
-                  />
-                </StyledProductImageContainer>
-
+                  </StyledProductImageContainer>
+                </StyledProductGalleryContainer>
                 <StyledProductDetails>
                   <StyledProductBrand>{productObj.brand}</StyledProductBrand>
                   <StyledProductName>{productObj.name}</StyledProductName>

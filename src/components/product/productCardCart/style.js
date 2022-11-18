@@ -76,9 +76,14 @@ const StyledPhotoIndexBtn = styled.button`
 `;
 
 const StyledImageContainer = styled.div`
-  img {
-    max-width: ${({ isOnCartPage }) => (isOnCartPage ? "200px" : "100%")};
-  }
+  position: relative;
+
+  ${({ isOnCartPage }) =>
+    isOnCartPage &&
+    ` img {
+        max-width: 200px
+      }
+      `}
 `;
 const StyledCarouselContainer = styled.div`
   display: flex;
@@ -107,9 +112,20 @@ const StyledCartProductCard = styled.div`
 
 const StyledDataInfoCol = styled.div`
   min-width: ${({ isOnCartPage }) => (isOnCartPage ? "" : "200px")};
+
+  @media (max-width: 768px) {
+    ${({ isOnCartPage }) =>
+      isOnCartPage
+        ? `
+    max-width: 150px;
+    `
+        : `
+    min-width: 130px;
+    `}
+  }
 `;
+
 const StyledDataGalleryCol = styled.div`
-  position: relative;
   display: flex;
   align-items: stretch;
   justify-content: center;
@@ -118,6 +134,12 @@ const StyledDataGalleryCol = styled.div`
 
   img {
     object-fit: cover;
+  }
+
+  @media (max-width: 768px) {
+    min-width: 125px;
+    ${({ isOnCartPage }) =>
+      isOnCartPage ? `flex-direction: column-reverse;` : ``}
   }
 `;
 
@@ -131,8 +153,7 @@ const StyledQuantityBtn = styled.button`
 
   ${({ isOnCartPage }) =>
     isOnCartPage
-      ? 
-    `width: 45px;
+      ? `width: 45px;
     height: 45px;
     `
       : `
@@ -144,6 +165,19 @@ const StyledQuantityCol = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+
+  @media (max-width: 768px) {
+    ${({ isOnCartPage }) =>
+      isOnCartPage
+        ? `
+
+  flex-direction: row-reverse;
+  
+  `
+        : `
+  
+  `}
+  }
 `;
 export {
   StyledProductBrand,

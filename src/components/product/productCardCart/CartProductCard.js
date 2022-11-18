@@ -66,7 +66,7 @@ export default class CartProductCard extends Component {
               ))}
             </StyledDataInfoCol>
             <StyledDataGalleryCol isOnCartPage={cartPage}>
-              <StyledQuantityCol>
+              <StyledQuantityCol isOnCartPage={cartPage}>
                 <StyledQuantityBtn
                   isOnCartPage={cartPage}
                   onClick={() => changeProductQuantity(this.props.product, 1)}
@@ -92,21 +92,21 @@ export default class CartProductCard extends Component {
               </StyledQuantityCol>
               <StyledImageContainer isOnCartPage={cartPage}>
                 <img src={gallery[this.state.currentPhotoIndex]} alt="" />
+                {!this.props.cartPage || gallery.length < 2 ? null : (
+                  <StyledCarouselContainer>
+                    <StyledPhotoIndexBtn
+                      onClick={() => this.changeCurrentPhotoIndex(1)}
+                    >
+                      <img src={arrowLeft} alt="" />
+                    </StyledPhotoIndexBtn>
+                    <StyledPhotoIndexBtn
+                      onClick={() => this.changeCurrentPhotoIndex(-1)}
+                    >
+                      <img src={arrowRight} alt="" />
+                    </StyledPhotoIndexBtn>
+                  </StyledCarouselContainer>
+                )}
               </StyledImageContainer>
-              {!this.props.cartPage || gallery.length < 2 ? null : (
-                <StyledCarouselContainer>
-                  <StyledPhotoIndexBtn
-                    onClick={() => this.changeCurrentPhotoIndex(1)}
-                  >
-                    <img src={arrowLeft} alt="" />
-                  </StyledPhotoIndexBtn>
-                  <StyledPhotoIndexBtn
-                    onClick={() => this.changeCurrentPhotoIndex(-1)}
-                  >
-                    <img src={arrowRight} alt="" />
-                  </StyledPhotoIndexBtn>
-                </StyledCarouselContainer>
-              )}
             </StyledDataGalleryCol>
           </StyledCartProductCard>
         )}

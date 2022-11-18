@@ -11,8 +11,7 @@ const StyledSwatchAttributeBox = styled.div`
     width: 32px;
     height: 32px;
     `
-      :  
-    `
+      : `
     width: 16px;
     height: 16px;
   `}
@@ -32,8 +31,7 @@ const StyledAttributeNameLabel = styled.h3`
     font-size: 1.125rem;
     text-transform: uppercase;
     `
-      : 
-    `
+      : `
     font-weight: 400;
     font-size: 0.875rem;
     text-transform: capitalize;
@@ -59,6 +57,10 @@ const StyledAttributesContainer = styled.div`
   display: flex;
   gap: 0.5em;
   margin-left: 2px;
+
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+  }
 `;
 
 const StyledAttributeBox = styled.div`
@@ -74,9 +76,9 @@ const StyledAttributeBox = styled.div`
     min-width: 65px;
     height: 45px;
     padding: 0 0.8em;
+   
     `
-    : 
-    `
+      : `
     padding: 0 0.2em;
     min-width: 24px;
     min-height: 24px;

@@ -1,5 +1,4 @@
-import styled  from 'styled-components'
-
+import styled from "styled-components";
 
 const StyledProductBrand = styled.h2`
   font-weight: 600;
@@ -15,7 +14,7 @@ const StyledProductName = styled.h2`
 const StyledDescription = styled.div`
   margin-top: 2.5em;
   display: flex;
-  height: 300px;
+  max-height: 300px;
   overflow-y: auto;
   max-width: 300px;
   gap: 20px;
@@ -30,17 +29,37 @@ const StyledDescription = styled.div`
   }
 `;
 
+const StyledProductGalleryContainer = styled.div`
+  display: flex;
+  gap: 1em;
+  flex: 2;
+
+  @media (max-width: 768px) {
+    flex-direction: column-reverse;
+  }
+`;
+
 const StyledProductImageContainer = styled.div`
   flex: 2;
   display: flex;
   justify-content: center;
   align-items: flex-start;
+
   img {
     min-width: 200px;
     max-height: 600px;
     max-width: 100%;
     object-fit: contain;
     object-position: center;
+    width: 100%;
+  }
+
+  @media (max-width: 768px) {
+    max-height: 100%;
+    min-height: max-content;
+    img {
+      aspect-ratio: 1/1;
+    }
   }
 `;
 const StyledProductPageWrapper = styled.div`
@@ -50,8 +69,7 @@ const StyledProductPageWrapper = styled.div`
   justify-content: space-between;
 
   @media (max-width: 768px) {
-    flex-wrap: wrap;
-    
+    flex-direction: column;
   }
 `;
 
@@ -72,18 +90,39 @@ const StyledThumbnailsContainer = styled.div`
   height: 500px;
   overflow-y: auto;
 
-  @media (max-width: 768px) {
-    max-width: 70px;
-  }
   img {
+    scroll-snap-align: center;
     object-fit: cover;
     padding: 1em 1em 1em 0;
     cursor: pointer;
 
-    &:first-child {
-      padding-top: 0;
+    @media (min-width: 768px) {
+      &:first-child {
+        padding-top: 0;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    scroll-snap-type: x mandatory;
+    max-width: 90vw;
+    max-height: 150px;
+    overflow-x: auto;
+    flex-direction: row;
+
+    img {
+      max-width: 100px;
     }
   }
 `;
 
-export { StyledProductBrand, StyledProductName, StyledDescription, StyledProductImageContainer, StyledProductPageWrapper, StyledProductDetails, StyledThumbnailsContainer };
+export {
+  StyledProductBrand,
+  StyledProductGalleryContainer,
+  StyledProductName,
+  StyledDescription,
+  StyledProductImageContainer,
+  StyledProductPageWrapper,
+  StyledProductDetails,
+  StyledThumbnailsContainer,
+};

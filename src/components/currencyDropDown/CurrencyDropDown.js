@@ -45,7 +45,7 @@ export default class DropDown extends PureComponent {
         {(context) => (
           <StyledDropDownWrapper className="drop-down">
             <StyledDropDownToggler onClick={this.toggleOverlayVisibility}>
-              {this.state.currencies[this.state.selectedCurrency].symbol}
+             <span> {this.state.currencies[this.state.selectedCurrency].symbol}</span> 
               {this.state.isOptionOpen ? (
                 <img
                   src={dropdownIconUp}

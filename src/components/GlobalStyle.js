@@ -1,8 +1,9 @@
-import {createGlobalStyle} from 'styled-components'
+import { createGlobalStyle } from "styled-components";
 const GlobalStyle = createGlobalStyle`
 
     *{
         box-sizing: border-box;
+        
         margin: 0;
         padding: 0;
     }
@@ -14,10 +15,8 @@ const GlobalStyle = createGlobalStyle`
     }
     //Prevent layout shift on modal open (hidden scrollbar)
     html {
+        @media (min-width: 400px) {
         margin-right: calc(-1 * (100vw - 100%));
-        
-        @media (max-width: 768px) {
-            font-size: 80%;
         }
     }
     header,
@@ -25,11 +24,27 @@ const GlobalStyle = createGlobalStyle`
     main {
         width: 90%;
         margin: 0 auto 2em;
-        
     }
+
+   
+        
     img {
         max-width: 100%;
         display: block;
     }
-`
-export default GlobalStyle
+
+    @media (max-width: 768px) {
+        header,
+        section,
+        main {
+            width: 96%;
+        }
+
+        html {
+            font-size: 75%;
+        }
+
+    
+    }
+`;
+export default GlobalStyle;
