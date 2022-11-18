@@ -9,7 +9,7 @@ import { PureComponent } from "react";
 import { onError } from "@apollo/client/link/error";
 import Navbar from "./components/nav/Navbar";
 import { Switch, Route, Redirect } from "react-router-dom";
-import ProductListingPage from "./pages/categoryPage/CategoryPage";
+import CategoryPage from "./pages/categoryPage/CategoryPage";
 import ProductPage from "./pages/productPage/ProductPage";
 import CartPage from "./pages/cartPage/CartPage";
 import NotFoundPage from "./pages/notFoundPage/NotFoundPage";
@@ -42,14 +42,14 @@ class App extends PureComponent {
             <Route exact path="/">
               <Redirect to="/all" />
             </Route>
-            <Route exact path="/cart">
+            <Route path="/cart">
               <CartPage />
             </Route>
             <Route path="/:category/:productId">
               <ProductPage />
             </Route>
             <Route path="/:category">
-              <ProductListingPage/>
+              <CategoryPage/>
             </Route>
             <Route path="*">
               <NotFoundPage />

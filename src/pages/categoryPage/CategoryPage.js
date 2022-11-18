@@ -4,9 +4,10 @@ import React, { PureComponent } from "react";
 import styled from "styled-components";
 import ProductCard from "../../components/product/productCard/ProductCard";
 import { withRouter } from "react-router-dom";
+import ErrorPage from "../notFoundPage/NotFoundPage";
+
 class CategoryPage extends PureComponent {
   render() {
-    console.log(this)
     return (
       <>
         <StyledHeading>{this.props.category}</StyledHeading>
@@ -15,11 +16,13 @@ class CategoryPage extends PureComponent {
             {({ loading, data, error }) => {
               if (loading) return <span>Loading</span>;
               if (error) return <span>something went wrong :(</span>;
-              if (data.category.products) {
+              if (data.category) {
                 return data.category.products.map((product) => {
                   return <ProductCard key={product.id} product={product} category={product.category}/>;
                 });
               }
+              return <ErrorPage />;
+             
             }}
           </Query>
         </StyledProductsGrid>
