@@ -1,70 +1,94 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Junior React Scandiweb Assignment
 
-## Available Scripts
+Frontend layer of an online store created as part of a recruitment assignment for the position of Junior React Developer at Scandiweb. 
+The web application allows users to filter results according to a selected category, add items to a shopping cart, and specify a selected currency in which product prices are displayed.
 
-In the project directory, you can run:
 
-### `npm start`
+## Overview
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+The data is fetched from the GraphQL endpoint and provides an interface to view and interact with this data.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+The project is built following design and functionality principles from this  [link](https://www.figma.com/file/ZhIW76oCgjW0wzJ8qCHhnt/Junior-Frontend-Test-Designs-(Public)-(Copy)?node-id=150%3A5&t=1BeeUQPXohlwtXo9-1).
 
-### `npm test`
+The outcome is not pixel-perfect to the provided design, but there are no noticeable mismatches both in terms of design and functionality
+## Demo
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+https://user-images.githubusercontent.com/61236659/202907124-5bf8a40e-ce50-44cf-95fe-2bd54ddbb863.mp4
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## FAQ
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- #### Is it responsive?
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+    Even though there was no requirement to implement responsiveness, it was decided to adapt the interfaces to smaller viewports
 
-### `npm run eject`
+- #### Will items added to the cart be visible after the page reloads?
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+    Yes, both items in the cart and the chosen currency will stay the same after reloading. It's achieved by storing cart and currency data in local storage.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- #### Are there any hardcoded links?
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+    The only hardcoded link is link responsible for displaying cart page
+- #### Are there any functionalities that are implemented but were not specified in the requirements?
+    Yes, when I was testing the app I found some problems I decided to solve to enhance user experience. 
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+    - Custom 404 page 
+    - Showing relevant information about current cart state
+    - Changing add to cart button appearance depending on if the given item is already in the cart
+    - Animation when a user adds an item to the cart from the category page to hint about a successful result
+## Screenshots
 
-## Learn More
+![screencapture-localhost-3000-clothes-huarache-x-stussy-le-2022-11-20-16_19_13](https://user-images.githubusercontent.com/61236659/202911553-ba03198f-f08d-40cb-a9f6-6b3d25ede989.jpg)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+![screencapture-localhost-3000-cart-2022-11-20-16_19_58](https://user-images.githubusercontent.com/61236659/202911556-1bf438b6-68d5-418b-a9b0-fbc20a8e720b.jpg)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+![screencapture-localhost-3000-cart3-2022-11-20-16_20_54](https://user-images.githubusercontent.com/61236659/202911558-e84f6034-09cb-4a51-9f10-b2a49707c4c5.jpg)
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Lessons Learned
 
-### Analyzing the Bundle Size
+First of all, I would like to thank you very much for the opportunity to do this recruitment task. Doing this assignment has strengthened my skills and brought me closer to what it looks like to create real, commercial solutions based on provided, clearly defined requirements. I learned how to use GraphQL, how to create contexts to help manage more complex application state, and how to create as accurate as possible projects with Figma
+## Technologies Used
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- ### Languages
+    - JS
+    - HTML
+    - CSS
+    - [GraphQl](https://graphql.org)
+- ### Front-End Libraries
+    - [ReactJS](https://reactjs.org)
+    - [React Router](https://github.com/remix-run/react-router)
+    - [styled components](https://github.com/remix-run/react-router)
+- ### Other tools
+    - [Apollo](https://www.apollographql.com)
+    - [html-react-parser](https://www.npmjs.com/package/html-react-parser)
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Run Locally
+#### to run this project on your machine, first, you have to install and host graphql [endpoint](https://github.com/scandiweb/junior-react-endpoint) as localhost
 
-### Advanced Configuration
+Clone the project
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```bash
+  git clone https://github.com/BlazejBatko/scandiweb-junior-react-task.git
+```
 
-### Deployment
+Go to the project directory
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+```bash
+  cd my-project
+```
 
-### `npm run build` fails to minify
+Install dependencies
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```bash
+  npm install
+```
+
+Start the server
+
+```bash
+  npm run start
+```
+
