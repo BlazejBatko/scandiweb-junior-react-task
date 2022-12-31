@@ -52,7 +52,7 @@ export default class CartProductCard extends Component {
                 {({ currencyIndex }) => (
                   <StyledPriceLabel isOnCartPage={cartPage}>
                     {prices[currencyIndex].currency.symbol}
-                    {prices[currencyIndex].amount}
+                    {(prices[currencyIndex].amount).toFixed(2)}
                   </StyledPriceLabel>
                 )}
               </CurrencyContextConsumer>

@@ -82,8 +82,8 @@ class ProductCard extends PureComponent {
         <CurrencyContextConsumer>
           {({ currencyIndex }) => (
             <StyledProductPriceLabel>
-              {prices[currencyIndex].currency.symbol}
-              {prices[currencyIndex].amount}
+              {(prices[currencyIndex].currency.symbol)}
+              {(prices[currencyIndex].amount).toFixed(2)}
             </StyledProductPriceLabel>
           )}
         </CurrencyContextConsumer>

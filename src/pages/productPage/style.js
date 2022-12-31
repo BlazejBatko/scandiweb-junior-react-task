@@ -16,17 +16,24 @@ const StyledDescription = styled.div`
   display: flex;
   max-height: 300px;
   overflow-y: auto;
-  max-width: 300px;
+  max-width: 500px;
   gap: 20px;
   display: flex;
   flex-direction: column;
   font-weight: 400;
-  ul {
-    list-style: none;
+  
+  span {
+    display: list-item;
   }
   li {
+    border: 1px dotted dodgerblue;
+    list-style-type: circle !important;
     margin-bottom: 10px;
   }
+  ul li::marker {
+    color: red;
+  }
+
 `;
 
 const StyledProductGalleryContainer = styled.div`

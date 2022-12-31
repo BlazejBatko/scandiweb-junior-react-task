@@ -17,8 +17,10 @@ const StyledDropDownCurrencyOption = styled.div`
   width: 100%;
   font-size: 1.125rem;
   font-weight: 500;
+  ${({ isSelected }) => isSelected && "background: #eee;"}
+
   &:hover {
-    background: #eee;
+    background: #f7f7f7;
   }
 `;
 

@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react";
 import { withRouter } from "react-router-dom";
-import { PRODUCT_BY_ID } from "../../graphQL/queries";
+import { PRODUCT_BY_ID } from "../../GraphQL/Queries";
 import { Query } from "@apollo/client/react/components";
 import parse from "html-react-parser";
 import AddToCartForm from "../../components/addProductToCartForm/AddToCartForm";
@@ -15,6 +15,7 @@ import {
   StyledThumbnailsContainer,
   StyledProductGalleryContainer,
 } from "./style";
+import Spinner from "../../components/Spinner";
 
 class ProductPage extends PureComponent {
   id = this.props.match.params.productId;
@@ -37,7 +38,7 @@ class ProductPage extends PureComponent {
     return (
       <Query query={PRODUCT_BY_ID(this.id)}>
         {({ loading, data, error }) => {
-          if (loading) return <div>Loading</div>;
+          if (loading) return <Spinner main />;
           if (error) return <div>Something went wrong :( </div>;
           if (data.product) {
             const productObj = data.product;

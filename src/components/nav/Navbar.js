@@ -1,8 +1,7 @@
 import React, { PureComponent } from "react";
 import MiniCart from "../miniCart/MiniCart";
 import CurrencyDropDown from "../currencyDropDown/CurrencyDropDown";
-import { NavLink } from "react-router-dom";
-import { LOAD_CATEGORIES, GET_AVAILABLE_PRICES } from "../../graphQL/queries";
+import { LOAD_CATEGORIES, GET_AVAILABLE_PRICES } from "../../GraphQL/Queries";
 import { Query } from "@apollo/client/react/components";
 import { withRouter } from "react-router-dom";
 import logoIcon from "../../assets/a-logo.svg";
@@ -12,6 +11,7 @@ import {
   StyledNavLink,
   StyledUl,
 } from "./style";
+import Spinner from "../Spinner";
 
 class Navbar extends PureComponent {
   render() {
@@ -21,7 +21,7 @@ class Navbar extends PureComponent {
           <StyledNavbarItemsContainer>
             <Query query={LOAD_CATEGORIES}>
               {({ loading, data, error }) => {
-                if (loading) return <span>Loading</span>;
+                if (loading) return <Spinner small />;
                 if (error) return <span>something went wrong :(</span>;
                 if (data.categories) {
                   return data.categories.map((category) => (
@@ -38,7 +38,7 @@ class Navbar extends PureComponent {
 
           <Query query={GET_AVAILABLE_PRICES}>
             {({ loading, data, error }) => {
-              if (loading) return <span>Loading</span>;
+              if (loading) return <Spinner small />;
               if (error) return <span>something went wrong :( </span>;
               if (data) {
                 return (

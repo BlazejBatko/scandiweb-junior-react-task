@@ -3,7 +3,6 @@ const GlobalStyle = createGlobalStyle`
 
     *{
         box-sizing: border-box;
-        
         margin: 0;
         padding: 0;
     }
@@ -25,9 +24,6 @@ const GlobalStyle = createGlobalStyle`
         width: 90%;
         margin: 0 auto 2em;
     }
-
-   
-        
     img {
         max-width: 100%;
         display: block;

@@ -45,7 +45,10 @@ export default class DropDown extends PureComponent {
         {(context) => (
           <StyledDropDownWrapper className="drop-down">
             <StyledDropDownToggler onClick={this.toggleOverlayVisibility}>
-             <span> {this.state.currencies[this.state.selectedCurrency].symbol}</span> 
+              <span>
+                {" "}
+                {this.state.currencies[this.state.selectedCurrency].symbol}
+              </span>
               {this.state.isOptionOpen ? (
                 <img
                   src={dropdownIconUp}
@@ -58,12 +61,13 @@ export default class DropDown extends PureComponent {
                 />
               )}
             </StyledDropDownToggler>
-
+            {console.log(this.state)}
             {this.state.isOptionOpen && (
               <StyledDropDownContainer>
                 {this.state.currencies.map((currency, index) => {
                   return (
                     <StyledDropDownCurrencyOption
+                      isSelected={index === this.state.selectedCurrency}
                       key={index}
                       onClick={() => {
                         context.changeCurrency(index);

@@ -1,10 +1,11 @@
-import { PRODUCTS_FROM_CATEGORY } from "../../graphQL/queries";
+import { PRODUCTS_FROM_CATEGORY } from "../../GraphQL/Queries";
 import { Query } from "@apollo/client/react/components";
 import React, { PureComponent } from "react";
 import styled from "styled-components";
 import ProductCard from "../../components/product/productCard/ProductCard";
 import { withRouter } from "react-router-dom";
 import ErrorPage from "../notFoundPage/NotFoundPage";
+import Spinner from "../../components/Spinner";
 
 class CategoryPage extends PureComponent {
   render() {
@@ -14,7 +15,7 @@ class CategoryPage extends PureComponent {
         <StyledProductsGrid>
           <Query query={PRODUCTS_FROM_CATEGORY(this.props.match.params.category)}>
             {({ loading, data, error }) => {
-              if (loading) return <span>Loading</span>;
+              if (loading) return <Spinner main/>;
               if (error) return <span>something went wrong :(</span>;
               if (data.category) {
                 return data.category.products.map((product) => {
