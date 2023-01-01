@@ -66,7 +66,9 @@ First of all, I would like to thank you very much for the opportunity to do this
 
 
 ## Run Locally
-#### to run this project on your machine, first, you have to install and host graphql [endpoint](https://github.com/scandiweb/junior-react-endpoint) as localhost
+~~#### to run this project on your machine, first, you have to install and host graphql [endpoint](https://github.com/scandiweb/junior-react-endpoint) as localhost~~
+
+#### graphql endpoint is now hosted on the server so you dont have to setup backend locally, now you can start right off from installing the client
 
 Clone the project
 
@@ -89,6 +91,6 @@ Install dependencies
 Start the server
 
 ```bash
-  npm run start
+  npm start
 ```
 
