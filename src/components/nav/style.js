@@ -6,9 +6,9 @@ const StyledLogoImg = styled.img`
   left: 50vw;
   transform: translateX(-50%);
 
-  @media (max-width: 768px) {
+  /* @media (max-width: 768px) {
     position: unset;
-  }
+  } */
 `;
 
 const StyledNavbarItemsContainer = styled.div`
@@ -28,6 +28,10 @@ const StyledUl = styled.ul`
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @media (max-width: 768px) {
+    padding: 1.75em 2em;
+  }
 `;
 
 const StyledNavLink = styled(NavLink)`

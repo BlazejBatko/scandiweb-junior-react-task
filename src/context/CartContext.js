@@ -18,7 +18,7 @@ class CartContextProvider extends Component {
   isItemInCart = (id, attributes) => {
     if (this.state.cart.find(element => (JSON.stringify(element.attributes) === JSON.stringify(attributes.attributes) && element.id === id))) {
         
-        return "in cart"
+        return "add once again"
     }
     else {
         return "add to cart"

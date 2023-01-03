@@ -35,7 +35,7 @@ const StyledButtonCTA = styled.button`
     switch (children) {
       case "out of stock":
         return "background: #e0e0e0; cursor: not-allowed;";
-      case "in cart":
+      case "add once again":
         return "background: #303030;";
       default:
         return "background: #5ece7b; cursor: pointer;";
