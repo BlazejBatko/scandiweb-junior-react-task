@@ -14,7 +14,6 @@ import ProductPage from "./pages/productPage/ProductPage";
 import CartPage from "./pages/cartPage/CartPage";
 import NotFoundPage from "./pages/notFoundPage/NotFoundPage";
 
-
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)
     graphQLErrors.forEach(({ message, locations, path }) =>
@@ -25,7 +24,9 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (networkError) console.log(`[Network error]: ${networkError}`);
 });
 
-const httpLink = new HttpLink({ uri: "https://junior-scandiweb-endpoint.onrender.com" });
+const httpLink = new HttpLink({
+  uri: "https://junior-scandiweb-endpoint.onrender.com",
+});
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
@@ -49,7 +50,7 @@ class App extends PureComponent {
               <ProductPage />
             </Route>
             <Route path="/:category">
-              <CategoryPage/>
+              <CategoryPage />
             </Route>
             <Route path="*">
               <NotFoundPage />

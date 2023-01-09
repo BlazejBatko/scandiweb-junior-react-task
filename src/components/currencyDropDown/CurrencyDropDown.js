@@ -61,7 +61,7 @@ export default class DropDown extends PureComponent {
                 />
               )}
             </StyledDropDownToggler>
-            {console.log(this.state)}
+           
             {this.state.isOptionOpen && (
               <StyledDropDownContainer>
                 {this.state.currencies.map((currency, index) => {

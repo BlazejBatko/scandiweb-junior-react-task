@@ -2,28 +2,76 @@ import React, { Component } from "react";
 import styled from "styled-components";
 
 export default class Spinner extends Component {
+  state = {
+    isToastShown: false,
+  };
+  componentDidMount() {
+    const loadingTimer = setTimeout(() => {
+      //After 3 seconds, if the page is still loading, show the toast
+      this.setState({ isToastShown: true });
+    }, 1000);
+
+    return () => {
+      //clearing timer on unmount
+      clearTimeout(loadingTimer);
+    };
+  }
+
   render() {
     return (
-      <StyledSpinner main={this.props.main} small={this.props.small}>
-        <div class="lds-spinner">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-      </StyledSpinner>
+      <>
+        {this.state.isToastShown && (
+          <StyledToast state={this.state.isToastShown ? "active" : "inactive"}>
+            <strong>First loading may take longer, give it a chance :(</strong>
+            <p>
+              Graph QL endpoint has to "wake up" from sleep mode caused by its
+              inactivity
+            </p>
+          </StyledToast>
+        )}
+        <StyledSpinner main={this.props.main} small={this.props.small}>
+          <div className="lds-spinner">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </StyledSpinner>
+      </>
     );
   }
 }
 
+const StyledToast = styled.div`
+  position: fixed;
+  z-index: 2;
+  bottom: 10%;
+  width: 80%;
+  left: 50vw;
+  max-width: 700px;
+
+  transform: translate(-50%, 0);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  gap: 1em;
+
+  background-color: #101010;
+  color: white;
+  padding: 1.5em;
+
+  transition: all 0.5s ease-in-out;
+`;
 const StyledSpinner = styled.div`
   ${(props) =>
     props.main
@@ -43,8 +91,8 @@ const StyledSpinner = styled.div`
     display: grid;
     place-content: center;
     position: relative;
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 25px;
   }
   .lds-spinner div {
     transform-origin: 4px 4px;
@@ -55,7 +103,7 @@ const StyledSpinner = styled.div`
     display: block;
     position: absolute;
     top: 3px;
-    
+
     border-radius: 20%;
     background: #000000;
 
@@ -71,7 +119,6 @@ const StyledSpinner = styled.div`
         height: 9px;
         width: 18px;
     `}
-
   }
   .lds-spinner div:nth-child(1) {
     transform: rotate(0deg);
